@@ -1,6 +1,7 @@
-﻿@import url(https://fonts.googleapis.com/earlyaccess/droidarabickufi.css);
+﻿@import url("https://fonts.googleapis.com/css?family=Lato:300");
+@import url(https://fonts.googleapis.com/earlyaccess/droidarabickufi.css);
 
-droid-arabic-kufi {
+.droid-arabic-kufi {
     font-family: 'Droid Arabic Kufi', serif;
 }
 .btn-outline-white {
@@ -13,4 +14,12 @@ droid-arabic-kufi {
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE10+/Edge */
     user-select: none; /* Standard */
+}
+
+.text-second {
+    color:antiquewhite;
+}
+
+.li_m {
+    margin-top: 8px;
 }

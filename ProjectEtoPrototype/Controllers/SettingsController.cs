@@ -11,16 +11,6 @@ namespace ProjectEtoPrototype.Controllers
         }
         public IActionResult SwitchTheme()
         {
-            if (Program.GlobalVars["Theme"] == "bootswatchThemeDark.css")
-            {
-                Program.GlobalVars["Theme"] = "bootswatchThemeLight.css";
-                Program.GlobalVars["ThemeIcon"] = "bi-moon";
-            }
-            else
-            {
-                Program.GlobalVars["Theme"] = "bootswatchThemeDark.css";
-                Program.GlobalVars["ThemeIcon"] = "bi-brightness-high";
-            }
             return Redirect(Request.Headers["Referer"].ToString());
         }
     }

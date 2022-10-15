@@ -13,5 +13,4 @@ namespace ProjectEtoPrototype.Models
 
         public Preference Preferences { get; set; }
     }
-
 }

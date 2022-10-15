@@ -1,40 +1,46 @@
-﻿@{
-    Layout = null;
+﻿
+@{
+    ViewData["Title"] = "Welcome";
+    Layout = "~/Views/Shared/_WelcomeBaseLayout.cshtml";
 }
 
-<!DOCTYPE html>
-
-<style>
-    body {
-        background-image: url(https://images2.alphacoders.com/733/733417.png);
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: cover;
-        background-position-x: 50%;
-    }
-</style>
-
-<html lang="ar">
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ProjectEtoPrototype</title>
-    <link rel="stylesheet" href="~/css/@Program.GlobalVars["Theme"]" />
-    <link rel="stylesheet" href="~/css/MyStyleSheet.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ProjectEtoPrototype.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-</head>
-
-<body dir="rtl">
+<body dir="rtl" class="droid-arabic-kufi">
     <header>
-        <div class="text-center pt-3">
-            <h1 class="pb-3 pt-3 droid-arabic-kufi border unselectable animated bounce infinite" style="font-size:500%;">
+        <div class="text-center pt-3 px-5">
+            <h1 class="animate__animated animate__backInDown pb-3 pt-3 unselectable border" style="font-size:500%;color:white;border-color:white;">
                 مشروع ETO
             </h1>
         </div>
     </header>
+    <div class="container">
+        <div class="row pt-5 px-5">
+            <ul class="list-group list-group-flush animate__animated animate__fadeIn animate__delay-1s text-second">
+                <li class="li_m">
+                    <h5 class="text-center">
+                        ETO برنامج يساعدك على ترتيب وتتبع مهامك اليومية
+                    </h5>
+                </li>
+                <li class="li_m">
+                    <h5 class="text-center">
+                        تستطيع انشاء تقويم للمواعيد الهامة ومشاركته اونلاين
+                    </h5>
+                </li>
+                <li class="li_m">
+                    <h5 class="text-center">
+                        التسجيل لا يتطلب بريد الكتروني او اسم مستخدم او كلمة مرور
+                    </h5>
+                </li>
+            </ul>
+        </div>
+        <div class="row pt-5 px-5">
+            <div class="btn-group" role="group">
+                <a class="animate__animated animate__delay-2s animate__fadeInLeft btn btn-lg btn-outline-warning">
+                    انشاء حساب جديد
+                </a>
+                <a class="btn btn-lg btn-outline-secondary animate__animated animate__delay-2s animate__fadeInRight" asp-controller="Welcome" asp-action="Login">
+                    تسجيل الدخول
+                </a>
+            </div>
+        </div>
+    </div>
 </body>
-
-</html>
