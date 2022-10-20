@@ -3,6 +3,7 @@ using ProjectEtoPrototype.Classes;
 using ProjectEtoPrototype.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
 
 namespace ProjectEtoPrototype
 {
@@ -11,7 +12,6 @@ namespace ProjectEtoPrototype
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -40,6 +40,7 @@ namespace ProjectEtoPrototype
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Welcome}/{action=Index}/{id?}");
+
 
             app.Run();
         }

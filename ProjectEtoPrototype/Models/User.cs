@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectEtoPrototype.Models
 {
@@ -9,8 +10,12 @@ namespace ProjectEtoPrototype.Models
         [DisplayName("User ID")]
         public string UserId { get; set; }
 
-        public List<DailyTask> DailyTasks { get; set; }
+        [Required]
+        public List<DailyTask> DailyTasks { get; set; } = new List<DailyTask>();
+        [Required]
+        public Preference? Preference { get; set; }
 
-        public Preference Preferences { get; set; }
+        [NotMapped]
+        public string? TempData { get; set; }
     }
 }

@@ -4,6 +4,16 @@
     Layout = "~/Views/Shared/_WelcomeBaseLayout.cshtml";
 }
 
+<style>
+    body {
+        background-image: url(https://images2.alphacoders.com/733/733417.png);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-position-x: 50%;
+    }
+</style>
+
 <body dir="rtl" class="droid-arabic-kufi">
     <header>
         <div class="text-center pt-3 px-5">
@@ -34,7 +44,7 @@
         </div>
         <div class="row pt-5 px-5">
             <div class="btn-group" role="group">
-                <a class="animate__animated animate__delay-2s animate__fadeInLeft btn btn-lg btn-outline-warning">
+                <a class="animate__animated animate__delay-2s animate__fadeInLeft btn btn-lg btn-outline-warning" asp-controller="Welcome" asp-action="Register">
                     انشاء حساب جديد
                 </a>
                 <a class="btn btn-lg btn-outline-secondary animate__animated animate__delay-2s animate__fadeInRight" asp-controller="Welcome" asp-action="Login">

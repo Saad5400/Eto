@@ -1,0 +1,36 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_WelcomeBaseLayout.cshtml";
+}
+
+<div class="mt-5 mb-5">
+    <div class="pt-5 pb-5">
+    </div>
+</div>
+<form class="container text-center px-3" dir="rtl">
+    <div class="row mb-3">
+        <h1>
+            حسابك جاهز!
+        </h1>
+    </div>
+    <div class="row mb-3">
+        <h3>
+            هذا ايدي الحساب ما يحتاج تحفظه الا لو بتدخل من جهاز ثاني، تقدر تشوفه بعدين من الاعدادات
+        </h3>
+        <br />
+        <h3>
+            @Model.UserId
+        </h3>
+        <br />
+    </div>
+    <div class="row">
+        <a asp-action="Enter" asp-controller="Welcome" class="btn btn-lg btn-outline-primary form-control-lg">
+            دخول
+        </a>
+    </div>
+
+
+</form>
+
