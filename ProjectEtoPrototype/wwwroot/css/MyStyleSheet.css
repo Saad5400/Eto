@@ -1,9 +1,15 @@
 ﻿@import url("https://fonts.googleapis.com/css?family=Lato:300");
 @import url(https://fonts.googleapis.com/earlyaccess/droidarabickufi.css);
+@import url(https://fonts.googleapis.com/earlyaccess/lateef.css); 
 
 .droid-arabic-kufi {
     font-family: 'Droid Arabic Kufi', serif;
 }
+.lateef {
+    font-family: 'Lateef', serif;
+}
+
+
 .btn-outline-white {
     --bs-btn-color: White;
     --bs-btn-border-color: White;

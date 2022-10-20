@@ -5,7 +5,30 @@
     
 }
 
+<head>
+    <script type="text/javascript">
+        var map =
+            [
+                "&\#1632;", "&\#1633;", "&\#1634;", "&\#1635;", "&\#1636;",
+                "&\#1637;", "&\#1638;", "&\#1639;", "&\#1640;", "&\#1641;"
+            ];
+
+        function getArabicNumbers(str) {
+            var newStr = "";
+
+            str = String(str);
+
+            for (i = 0; i < str.length; i++) {
+                newStr += map[parseInt(str.charAt(i))];
+            }
+
+            return newStr;
+        }
+    </script>
+</head>
+
 <div class="text-center" dir="rtl">
+
     <div class="container mt-3">
         <div class="row">
             <h5 class="text-end text-info">
@@ -14,10 +37,15 @@
             </h5>
         </div>
         <div class="row">
-            <p class="text-start text-secondary">
+            <p class="text-start text-secondary" id="verseNameAndNumber">
                 @QuranHandler.ChapterName
                 @QuranHandler.VerseID
             </p>
+            <script type="text/javascript">
+                window.onload = function () {
+                    document.getElementById("verseNameAndNumber").innerHTML = "@QuranHandler.ChapterName " + getArabicNumbers(@QuranHandler.VerseID);
+                }
+            </script>
             <p class="text-center">
                 @QuranHandler.SetAndGetVerse(Model.Preference.SurahId, Model.Preference.VerseId);
             </p>
@@ -157,4 +185,5 @@
         </div>
 
     </div>
+
 </div>
