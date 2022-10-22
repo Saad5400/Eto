@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewData["Title"] = "الأذكار";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<body dir="rtl">
+
+    <script type="text/javascript">
+        function ReadMore(devId, btnId) {
+            var dev = document.getElementById(devId);
+            var btn = document.getElementById(btnId);
+            if (dev.hidden == "") {
+                dev.hidden = "hidden";
+                btn.innerHTML = "المزيد...";
+            }
+            else {
+                dev.hidden = "";
+                btn.innerHTML = "اخفاء";
+            }
+        }
+
+        function AddToNextElement(caller) {
+            caller.nextElementSibling.innerHTML = parseInt(caller.nextElementSibling.innerHTML) + 1;
+        }
+    </script>
+
+    <br />
+
+    <h1 class="text-info">
+         الأذكار
+    </h1>
+    <div class="card text-black bg-primary mb-3 mt-4">
+        <div class="card-body">
+            <h4 class="card-header text-white">
+                أذكار الصباح والمساء
+                <i class="bi bi-moon-stars"></i>
+            </h4>
+            <br />
+            <p class="card-text">
+                أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ<br />
+                اللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ. [آية الكرسى - البقرة 255].
+                <br />
+                <span class="text-white" style="font-size:small">
+                    من قالها حين يصبح أجير من الجن حتى يمسى ومن قالها حين يمسى أجير من الجن حتى يصبح.
+                </span>
+            </p>
+            <p>
+                بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم
+                <br />
+                قُلْ هُوَ ٱللَّهُ أَحَدٌ، ٱللَّهُ ٱلصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ.
+                <br />
+                <span class="text-white" style="font-size:small">
+                    من قالها حين يصبح وحين يمسى كفته من كل شىء (الإخلاص والمعوذتين).
+                </span>
+            </p>
+            <p>
+                بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم
+                <br />
+                قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ، مِن شَرِّ مَا خَلَقَ، وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ، وَمِن شَرِّ ٱلنَّفَّٰثَٰتِ فِى ٱلْعُقَدِ، وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ.
+            </p>
+            <p>
+                بِسْمِ اللهِ الرَّحْمنِ الرَّحِيم
+                <br />
+                قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ، مَلِكِ ٱلنَّاسِ، إِلَٰهِ ٱلنَّاسِ، مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ، ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ، مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ.
+            </p>
+            <div hidden="hidden" id="dayNightDev">
+                <p>
+                    اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ ، خَلَقْتَنـي وَأَنا عَبْـدُك ، وَأَنا عَلـى عَهْـدِكَ وَوَعْـدِكَ ما اسْتَـطَعْـت ، أَعـوذُبِكَ مِنْ شَـرِّ ما صَنَـعْت ، أَبـوءُ لَـكَ بِنِعْـمَتِـكَ عَلَـيَّ وَأَبـوءُ بِذَنْـبي فَاغْفـِرْ لي فَإِنَّـهُ لا يَغْـفِرُ الذُّنـوبَ إِلاّ أَنْتَ .
+                    <br />
+                    <span class="text-white" style="font-size:small">
+                        من قالها موقنا بها حين يمسى ومات من ليلته دخل الجنة وكذلك حين يصبح.
+                    </span>
+                </p>
+                <p>
+                    رَضيـتُ بِاللهِ رَبَّـاً وَبِالإسْلامِ ديـناً وَبِمُحَـمَّدٍ صلى الله عليه وسلم نَبِيّـاً.
+                    <br />
+                    <span class="text-white" style="font-size:small">
+                        من قالها حين يصبح وحين يمسى كان حقا على الله أن يرضيه يوم القيامة.
+                    </span>
+                </p>
+                <p>
+                    اللّهُـمَّ إِنِّـي أَصْبَـحْتُ أُشْـهِدُك ، وَأُشْـهِدُ حَمَلَـةَ عَـرْشِـك ، وَمَلَائِكَتَكَ ، وَجَمـيعَ خَلْـقِك ، أَنَّـكَ أَنْـتَ اللهُ لا إلهَ إلاّ أَنْـتَ وَحْـدَكَ لا شَريكَ لَـك ، وَأَنَّ ُ مُحَمّـداً عَبْـدُكَ وَرَسـولُـك.
+                    <br />
+                    <span class="text-white" style="font-size:small">
+                        من قالها أعتقه الله من النار.
+                    </span>
+                </p>
+                <p>
+                    اللّهُـمَّ ما أَصْبَـَحَ بي مِـنْ نِعْـمَةٍ أَو بِأَحَـدٍ مِـنْ خَلْـقِك ، فَمِـنْكَ وَحْـدَكَ لا شريكَ لَـك ، فَلَـكَ الْحَمْـدُ وَلَـكَ الشُّكْـر.
+                    <br />
+                    <span class="text-white" style="font-size:small">
+                        من قالها حين يصبح أدى شكر يومه.
+                    </span>
+                </p>
+                <p>
+                    حَسْبِـيَ اللّهُ لا إلهَ إلاّ هُوَ عَلَـيهِ تَوَكَّـلتُ وَهُوَ رَبُّ العَرْشِ العَظـيم.
+                    <br />
+                    <span class="text-white" style="font-size:small">
+                        من قالها كفاه الله ما أهمه من أمر الدنيا والأخرة.
+                    </span>
+                </p>
+            </div>
+            <a class="btn btn-outline-secondary border-0" id="dayNightbtn" onclick="ReadMore('dayNightDev', 'dayNightbtn')">
+                المزيد...
+            </a>
+        </div>
+    </div>
+
+    <div class="card text-black bg-primary mb-3 mt-4">
+        <div class="card-body">
+            <h4 class="card-header text-white">مسبحة </h4>
+            <br />
+            <div class="row">
+                <a class="btn text-black text-end col-9" onclick="AddToNextElement(this)">
+                    سبحان الله وبحمده سبحان الله العظيم
+                </a>
+                <a class="btn col-3 text-start">
+                    0
+                </a>
+                <hr />
+            </div>
+            <div class="row">
+                <a class="btn text-black text-end col-9" onclick="AddToNextElement(this)">
+                    لا إله إلا الله وحده لا شريك له له الملك وله الحمد يحيي ويميت وهو على كل شيء قدير
+                </a>
+                <a class="btn col-3 text-start">
+                    0
+                </a>
+                <hr />
+            </div>
+            <div class="row">
+                <a class="btn text-black text-end col-9" onclick="AddToNextElement(this)">
+                    استغفر الله                
+                </a>
+                <a class="btn col-3 text-start">
+                    0
+                </a>
+                <hr />
+            </div>
+            <div class="row">
+                <a class="btn text-black text-end col-9" onclick="AddToNextElement(this)">
+                    الحمدلله
+                </a>
+                <a class="btn col-3 text-start">
+                    0
+                </a>
+                <hr />
+            </div>
+            <div class="row">
+                <a class="btn text-black text-end col-9" onclick="AddToNextElement(this)">
+                    الله أكبر
+                </a>
+                <a class="btn col-3 text-start">
+                    0
+                </a>
+                <hr />
+            </div>
+        </div>
+    </div>
+
+</body>
+

@@ -1,9 +1,10 @@
 ﻿@model User
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "الرئيسية";
     
 }
+
 
 <head>
     <script type="text/javascript">
@@ -60,6 +61,15 @@
                 </a>
             </div>
         </div>
+        @if (TempData["QuranComplete"] != null) {
+            <div class="row mt-1">
+                <div class="alert alert-dismissible alert-success">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <strong>مبروك!</strong> على ختمك للقرآن.
+                </div>
+            </div>
+        }
+
         <br />
         <br />
         <div class="row">
@@ -140,46 +150,32 @@
                 <i class="bi bi-fire"></i>
             </h5>
         </div>
-        <div class="row align-items-center" dir="ltr">
-            <div class="justify-content-center d-flex flex-column col-2">
-                <label class="text-start text-primary">
-                    @Model.Preference.CurrentCalories
-                </label>
-            </div>
-            @* <div class="justify-content-center d-flex flex-column col-10"> *@
-            @*     <div class="progress"> *@
-            @*         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;"></div> *@
-            @*     </div> *@
-            @* </div> *@
+        <div class="row mb-3">
+            <label class="text-center text-primary" style="font-size: large;">
+                <strong>@Model.Preference.CurrentCalories</strong>
+            </label>
         </div>
-        @* TODO: add javascript to save changes and change label value *@
         <div class="row">
-            <div class="col-5 btn-group d-flex justify-content-center" role="group" dir="ltr">
+            <div class="col-6 btn-group d-flex justify-content-center" role="group" dir="ltr">
 
-                <a class="btn btn-outline-primary" dir="rtl" >
+                <a class="btn btn-outline-primary" dir="rtl" asp-controller="Home" asp-action="AddCalories" asp-route-amount="450">
                     +450
                 </a>
-                <a class="btn btn-outline-primary" dir="rtl" >
+                <a class="btn btn-outline-primary" dir="rtl" asp-controller="Home" asp-action="AddCalories" asp-route-amount="150">
                     +150
                 </a>
-                <a class="btn btn-outline-primary" dir="rtl" >
+                <a class="btn btn-outline-primary" dir="rtl" asp-controller="Home" asp-action="AddCalories" asp-route-amount="50">
                     +50
                 </a>
             </div>
-            <div class="col-2 text-center d-flex justify-content-center">
-                @* TODO add functionality *@
-                <a class="btn text-info">
-                    حفظ
-                </a>
-            </div>
-            <div class="col-5 btn-group d-flex justify-content-center" role="group" dir="ltr">
-                <a class="btn btn-outline-secondary" dir="rtl" >
+            <div class="col-6 btn-group d-flex justify-content-center" role="group" dir="ltr">
+                <a class="btn btn-outline-secondary" dir="rtl" asp-controller="Home" asp-action="AddCalories" asp-route-amount="-50">
                     -50
                 </a>
-                <a class="btn btn-outline-secondary" dir="rtl" >
+                <a class="btn btn-outline-secondary" dir="rtl" asp-controller="Home" asp-action="AddCalories" asp-route-amount="-150">
                     -150
                 </a>
-                <a class="btn btn-outline-secondary" dir="rtl" >
+                <a class="btn btn-outline-secondary" dir="rtl" asp-controller="Home" asp-action="AddCalories" asp-route-amount="-450">
                     -450
                 </a>
             </div>

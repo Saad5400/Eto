@@ -29,3 +29,7 @@
 .li_m {
     margin-top: 8px;
 }
+
+#more {
+    display: none;
+}

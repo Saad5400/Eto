@@ -8,6 +8,16 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace ProjectEtoPrototype.Controllers
 {
+    /* 
+     TODO: 
+    المصروفات 
+    المستخدم يضغط زائد 
+    يحط الاسم (يطلع له اخر الاسماء)
+    يحط الوصف
+    يحط المبلغ 
+    يختار دخل او مصروف
+    فيه زر يوريك الملخص والاحصائيات
+     */
     public class HomeController : BaseController
     {
         public IActionResult Index()
@@ -42,6 +52,12 @@ namespace ProjectEtoPrototype.Controllers
             user.Preference.SurahId = QuranHandler.ChapterID;
             user.Preference.VerseId = QuranHandler.VerseID;
             Db.SaveChanges();
+
+            if (user.Preference.SurahId == 1 && user.Preference.VerseId == 1)
+            {
+                TempData["QuranComplete"] = "true";
+            }
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -81,12 +97,13 @@ namespace ProjectEtoPrototype.Controllers
 
             return Redirect(Request.Headers["Referer"].ToString());
         }
-        public IActionResult SetCurrentCalories(int amount)
+
+        public IActionResult AddCalories(int amount)
         {
             if (CheckUserExist(Request) != null) { return CheckUserExist(Request); }
             User user = GetUser(Request);
 
-            user.Preference.CurrentCalories = amount;
+            user.Preference.CurrentCalories += amount;
             Db.SaveChanges();
 
             return Redirect(Request.Headers["Referer"].ToString());
