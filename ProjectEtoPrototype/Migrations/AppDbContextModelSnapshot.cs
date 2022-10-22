@@ -59,6 +59,9 @@ namespace ProjectEtoPrototype.Migrations
                     b.Property<int>("CurrentCalories")
                         .HasColumnType("int");
 
+                    b.Property<int>("MaxCalories")
+                        .HasColumnType("int");
+
                     b.Property<int>("SurahId")
                         .HasColumnType("int");
 

@@ -29,7 +29,7 @@ namespace ProjectEtoPrototype.Controllers
             QuranHandler.PreviousVerse();
             user.Preference.SurahId = QuranHandler.ChapterID;
             user.Preference.VerseId = QuranHandler.VerseID;
-            _db.SaveChanges();
+            Db.SaveChanges();
             return RedirectToAction("Index", "Home");
         }
         public IActionResult NextVerse()
@@ -41,7 +41,7 @@ namespace ProjectEtoPrototype.Controllers
             QuranHandler.NextVerse();
             user.Preference.SurahId = QuranHandler.ChapterID;
             user.Preference.VerseId = QuranHandler.VerseID;
-            _db.SaveChanges();
+            Db.SaveChanges();
             return RedirectToAction("Index", "Home");
         }
 
@@ -59,44 +59,40 @@ namespace ProjectEtoPrototype.Controllers
             User user = GetUser(Request);
 
             user.DailyTasks.Add(new DailyTask { Name = passedUser.TempData });
-            _db.SaveChanges();
+            Db.SaveChanges();
 
             return Redirect(Request.Headers["Referer"].ToString());
         }
-
         public IActionResult RemoveDailyTask(int taskId)
         {
-            DailyTask dailyTask = _db.DailyTasks.Find(taskId);
-            _db.DailyTasks.Remove(dailyTask);
+            DailyTask dailyTask = Db.DailyTasks.Find(taskId);
+            Db.DailyTasks.Remove(dailyTask);
 
-            _db.SaveChanges();
+            Db.SaveChanges();
 
             return Redirect(Request.Headers["Referer"].ToString());
         }
         public IActionResult DelayDailyTask(int taskId)
         {
-            DailyTask dailyTask = _db.DailyTasks.Find(taskId);
+            DailyTask dailyTask = Db.DailyTasks.Find(taskId);
             dailyTask.CreatedDate = dailyTask.CreatedDate.AddHours(2);
 
-            _db.SaveChanges();
+            Db.SaveChanges();
 
             return Redirect(Request.Headers["Referer"].ToString());
         }
-        public IActionResult ChangeCurrentCalories(int amount)
+        public IActionResult SetCurrentCalories(int amount)
         {
             if (CheckUserExist(Request) != null) { return CheckUserExist(Request); }
             User user = GetUser(Request);
 
-            user.Preference.CurrentCalories += amount;
-            _db.SaveChanges();
+            user.Preference.CurrentCalories = amount;
+            Db.SaveChanges();
 
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

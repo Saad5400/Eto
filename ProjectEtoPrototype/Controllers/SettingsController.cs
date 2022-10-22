@@ -25,7 +25,7 @@ namespace ProjectEtoPrototype.Controllers
             {
                 user.Preference.Theme = "DarkBlue";
             }
-            _db.SaveChanges();
+            Db.SaveChanges();
             return Redirect(Request.Headers["Referer"].ToString());
         }
     }

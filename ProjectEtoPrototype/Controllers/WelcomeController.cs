@@ -47,7 +47,7 @@ namespace ProjectEtoPrototype.Controllers
             do
             {
                 userId = IdManager.GenerateNewId();
-            } while (_db.Users.Find(userId) != null);
+            } while (Db.Users.Find(userId) != null);
             
             CookieOptions cookieOptions = new CookieOptions
             {
@@ -63,8 +63,8 @@ namespace ProjectEtoPrototype.Controllers
             };
             if (ModelState.IsValid)
             {
-                _db.Add(user);
-                _db.SaveChanges();
+                Db.Add(user);
+                Db.SaveChanges();
             }
 
             Response.Cookies.Append(key, userId, cookieOptions);
@@ -169,9 +169,9 @@ namespace ProjectEtoPrototype.Controllers
 
         public IActionResult RemoveAll()
         {
-            _db.Preferences.RemoveRange(_db.Preferences);
-            _db.DailyTasks.RemoveRange(_db.DailyTasks);
-            _db.Users.RemoveRange(_db.Users);
+            Db.Preferences.RemoveRange(Db.Preferences);
+            Db.DailyTasks.RemoveRange(Db.DailyTasks);
+            Db.Users.RemoveRange(Db.Users);
 
             CookieOptions cookieOptions = new CookieOptions
             {
@@ -179,7 +179,7 @@ namespace ProjectEtoPrototype.Controllers
             };
             Response.Cookies.Append("accountsCount", "0", cookieOptions);
 
-            _db.SaveChanges();
+            Db.SaveChanges();
             return RedirectToAction("Login", "Welcome");
         }
     }

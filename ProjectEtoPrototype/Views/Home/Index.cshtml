@@ -142,42 +142,44 @@
         </div>
         <div class="row align-items-center" dir="ltr">
             <div class="justify-content-center d-flex flex-column col-2">
-                <h3 class="text-start text-primary">
+                <label class="text-start text-primary">
                     @Model.Preference.CurrentCalories
-                </h3>
+                </label>
             </div>
-            <div class="justify-content-center d-flex flex-column col-10">
-                <div class="progress">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;"></div>
-                </div>
-            </div>
+            @* <div class="justify-content-center d-flex flex-column col-10"> *@
+            @*     <div class="progress"> *@
+            @*         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;"></div> *@
+            @*     </div> *@
+            @* </div> *@
         </div>
+        @* TODO: add javascript to save changes and change label value *@
         <div class="row">
             <div class="col-5 btn-group d-flex justify-content-center" role="group" dir="ltr">
 
-                <a class="btn btn-outline-primary" dir="rtl" asp-controller="Home" asp-action="ChangeCurrentCalories" asp-route-amount="450">
+                <a class="btn btn-outline-primary" dir="rtl" >
                     +450
                 </a>
-                <a class="btn btn-outline-primary" dir="rtl" asp-controller="Home" asp-action="ChangeCurrentCalories" asp-route-amount="150">
+                <a class="btn btn-outline-primary" dir="rtl" >
                     +150
                 </a>
-                <a class="btn btn-outline-primary" dir="rtl" asp-controller="Home" asp-action="ChangeCurrentCalories" asp-route-amount="50">
+                <a class="btn btn-outline-primary" dir="rtl" >
                     +50
                 </a>
             </div>
             <div class="col-2 text-center d-flex justify-content-center">
+                @* TODO add functionality *@
                 <a class="btn text-info">
                     حفظ
                 </a>
             </div>
             <div class="col-5 btn-group d-flex justify-content-center" role="group" dir="ltr">
-                <a class="btn btn-outline-secondary" dir="rtl" asp-controller="Home" asp-action="ChangeCurrentCalories" asp-route-amount="-50">
+                <a class="btn btn-outline-secondary" dir="rtl" >
                     -50
                 </a>
-                <a class="btn btn-outline-secondary" dir="rtl" asp-controller="Home" asp-action="ChangeCurrentCalories" asp-route-amount="-150">
+                <a class="btn btn-outline-secondary" dir="rtl" >
                     -150
                 </a>
-                <a class="btn btn-outline-secondary" dir="rtl" asp-controller="Home" asp-action="ChangeCurrentCalories" asp-route-amount="-450">
+                <a class="btn btn-outline-secondary" dir="rtl" >
                     -450
                 </a>
             </div>
