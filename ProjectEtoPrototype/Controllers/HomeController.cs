@@ -49,7 +49,7 @@ namespace ProjectEtoPrototype.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddDailyTask(User passedUser)
         {
-            if (passedUser.TempData == null || passedUser.TempData == String.Empty)
+            if (String.IsNullOrEmpty(passedUser.TempData))
             {
                 TempData["AddDailyTaskError"] = "يجب ادخال الاسم";
                 return Redirect(Request.Headers["Referer"].ToString());

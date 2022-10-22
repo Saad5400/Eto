@@ -27,8 +27,8 @@
                 values2DArray[row, col]
                 */
 
-                // each coulmn and row's sum must be equal to the magic number
-                // Each ID can have a diffrent magic number
+                // each column and row's sum must be equal to the magic number
+                // Each ID can have a different magic number
                 var magicNumber = 0;
 
                 // for 3 times
@@ -40,19 +40,19 @@
                     // calculating the magic number based on the first row
                     magicNumber += number;
 
-                    // add that numgber to the first row
+                    // add that number to the first row
                     values2DArray[0, i] = number;
                 }
 
                 // working on the second row
 
-                // another totlly random number between min and max including both
+                // another totally random number between min and max including both
                 values2DArray[1, 0] = rnd.Next(MinValue, MaxValue + 1);
 
                 // reminder until magic number
                 var remainder = magicNumber - values2DArray[1, 0];
 
-                // random number between min and remainer including both
+                // random number between min and remainder including both
                 values2DArray[1, 1] = rnd.Next(MinValue, remainder + 1);
 
                 // reminder until magic number
@@ -61,7 +61,7 @@
                 // assign row 1 col 2 to the remainder (remainder could be negative)
                 values2DArray[1, 2] = remainder;
 
-                // checking for duplicates in the pattren (2, -2, 0) for row 0
+                // checking for duplicates in the pattern (2, -2, 0) for row 0
                 if (Math.Abs(values2DArray[0, 0]) == Math.Abs(values2DArray[0, 1]) ||
                     Math.Abs(values2DArray[0, 0]) == Math.Abs(values2DArray[0, 2]) ||
                     Math.Abs(values2DArray[0, 1]) == Math.Abs(values2DArray[0, 2])
@@ -79,7 +79,7 @@
 
                 // once again duplicates, but this time between
                 // each item in row 0 and each item in row 1
-                // it will fix pattrens like 
+                // it will fix patterns like 
                 // {-1, -2, -3}
                 // { 1,  2,  3}
                 foreach (int x in GetRow(values2DArray, 0))
@@ -117,7 +117,7 @@
                         // if it's negative then replace the sign with "M"
                         if (Math.Abs(number) >= 10)
                         {
-                            id += $"{GetMultpliedString("T", (int)Math.Floor(Math.Abs((decimal)number / 10)))}" +
+                            id += $"{GetMultipliedString("T", (int)Math.Floor(Math.Abs((decimal)number / 10)))}" +
                                 ((number < 0) ? "M" : String.Empty) +
                                 $"{Math.Abs(number) % 10}";
                         }
@@ -208,7 +208,7 @@
         }
 
         // kinda like the (string * int) in python
-        private static string GetMultpliedString(string str, int times)
+        private static string GetMultipliedString(string str, int times)
         {
             string newStr = String.Empty;
             for (int i = 0; i < times; i++)
@@ -226,11 +226,11 @@
         }
 
         // used while debugging
-        private static void Visualize2DIntArray(int[,] ints)
+        private static void Visualize2DIntArray(int[,] array)
         {
-            for (int i = 0; i < ints.GetLength(0); i++)
+            for (int i = 0; i < array.GetLength(0); i++)
             {
-                Console.WriteLine(ints[i, 0] + " " + ints[i, 1] + " " + ints[i, 2]);
+                Console.WriteLine(array[i, 0] + " " + array[i, 1] + " " + array[i, 2]);
             }
             Console.WriteLine();
         }

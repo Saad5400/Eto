@@ -13,6 +13,7 @@ namespace ProjectEtoPrototype.Models
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public int CurrentCalories { get; set; } = 0;
+        public int MaxCalories { get; set; } = 1800;
 
         public int SurahId { get; set; } = 1;
         public int VerseId { get; set; } = 1;
