@@ -1,5 +1,6 @@
-﻿@using ProjectEtoPrototype.Controllers
-@model User
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+
 @*@{
     Preference preference = HomeController._db.Preferences.Find(Model.UserId);
 }*@
@@ -10,13 +11,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ProjectEtoPrototype</title>
-    @if(Model.Preference.Theme == "LightOrange") {
-        <link rel="stylesheet" href="~/css/bootswatchThemeLight.css" />
+    @{
+        var cookies = HttpContextAccessor.HttpContext.Request.Cookies;
+        if (cookies["Theme"] == "LightOrange") {
+            <link rel="stylesheet" href="~/css/bootswatchThemeLight.css" />
+        }
+        if (cookies["Theme"] == "DarkBlue")
+        {
+            <link rel="stylesheet" href="~/css/bootswatchThemeDark.css" />
+        }
     }
-    @if (Model.Preference.Theme == "DarkBlue")
-    {
-        <link rel="stylesheet" href="~/css/bootswatchThemeDark.css" />
-    }
+
     <link rel="stylesheet" href="~/css/MyStyleSheet.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProjectEtoPrototype.styles.css" asp-append-version="true" />
@@ -47,7 +52,7 @@
                             <a class="nav-link" asp-controller="Prayers" asp-action="Index">الأذكار</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">تتبع المصاريف</a>
+                            <a class="nav-link" asp-controller="Budget" asp-action="Index">تتبع المصاريف</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Settings" asp-action="Index">الاعدادات والتفضيلات</a>

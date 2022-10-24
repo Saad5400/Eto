@@ -13,7 +13,9 @@ namespace ProjectEtoPrototype.Models
         [Required]
         public List<DailyTask> DailyTasks { get; set; } = new List<DailyTask>();
         [Required]
-        public Preference? Preference { get; set; }
+        public Preference Preference { get; set; } = new Preference();
+        [Required]
+        public Bank Bank { get; set; } = new Bank();
 
         [NotMapped]
         public string? TempData { get; set; }

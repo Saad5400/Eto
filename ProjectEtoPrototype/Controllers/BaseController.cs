@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectEtoPrototype.Data;
 using ProjectEtoPrototype.Models;
 
@@ -7,28 +9,17 @@ namespace ProjectEtoPrototype.Controllers
     public class BaseController : Controller
     {
         protected AppDbContext Db => (AppDbContext)HttpContext.RequestServices.GetService(typeof(AppDbContext));
-        
+
         protected User GetUser(HttpRequest request)
         {
             string key = "UserID";
             var userId = request.Cookies[key];
-            User user = Db.Users.Find(userId);
-            user.Preference = Db.Preferences.Find(userId);
-
-            var dailyTasks = from obj in Db.DailyTasks
-                              where obj.UserId == user.UserId
-                              select obj;
-            foreach (var obj in dailyTasks)
-            {
-                if (24 - (DateTime.Now - obj.CreatedDate).TotalHours <= 0)
-                {
-                    Db.DailyTasks.Remove(obj);
-                    continue;
-                }
-                if (!user.DailyTasks.Contains(obj))
-                    user.DailyTasks.Add(obj);
-            }
-            Db.SaveChanges();
+            User user = Db.Users
+                .Include(u => u.DailyTasks)
+                .Include(u => u.Preference)
+                .Include(u => u.Bank)
+                .ThenInclude(b => b.Operations)
+                .First(u => u.UserId == userId);
             return user;
         }
         protected IActionResult? CheckUserExist(HttpRequest request)
@@ -38,11 +29,6 @@ namespace ProjectEtoPrototype.Controllers
             if (Db.Users.Find(userId) == null)
             {
                 TempData["LoginError"] = "لم يتم العثور على الحساب";
-                return RedirectToAction("Login", "Welcome");
-            }
-            if (Db.Preferences.Find(userId) == null)
-            {
-                TempData["LoginError"] = "هناك مشكلة بالحساب";
                 return RedirectToAction("Login", "Welcome");
             }
             return null;

@@ -1,0 +1,86 @@
+﻿@model Operation
+@{
+    ViewData["Title"] = "اضافة عملية";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form class="container-fluid" dir="rtl" method="post">
+    <div class="row">
+        <div class="col-6">
+            <h1 class="mt-4 unselectable">اضافة عملية</h1>
+        </div>        
+        <div class="col-6 mt-4 text-start">
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group" dir="ltr">
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked="" onclick="SetAmount();">
+                <label class="btn btn-outline-primary" for="btnradio1">دخل</label>
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" checked="" onclick="SetAmount();">
+                <label class="btn btn-outline-primary" for="btnradio2">مصروف</label>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 mx-2 row">
+        <input class="form-control" placeholder="ادخل وصف او اسم العملية" asp-for="Description"/>
+    </div>
+    <div class="mt-3 mx-2 row">
+        <div class="col-6">
+            <input class="form-control" placeholder="ادخل او اختر تصنيف العملية" asp-for="Class" id="classInput"/>
+
+        </div>
+
+        <div class="btn-group col-6" role="group" dir="ltr">
+            <button type="button" class="btn btn-primary"> اخر التصنيفات</button>
+            <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+                    @* TODO: complete this *@
+                    @foreach (string str in Model.lastClasses)
+                    {
+                        <a class="dropdown-item" href="#" onclick="SetClass(this)">@str</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 mx-2 row">
+        <input class="form-control" placeholder="ادخل المبلغ" oninput="SetAmount();" id="userInput" type="number"/>
+        <input asp-for="Amount" id="amountInput" hidden=""/>
+    </div>
+    <br/> <br/>
+    @if (TempData["OperationError"] != null)
+    {
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>حدث خطأ</strong> تأكد من ادخال كل القيم
+        </div>
+    }
+    <div class="row mx-5 mt-5">
+        <button class="btn btn-outline-primary" type="submit">
+            اضافة
+        </button>
+    </div>
+
+
+</form>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function SetAmount() {
+            var userInput = document.getElementById("userInput");
+            var hiddenInput = document.getElementById("amountInput");
+            var radioSpend = document.getElementById("btnradio2");
+
+
+            if (radioSpend.checked) {
+                hiddenInput.value = Math.abs(userInput.value) * -1;
+            } else {
+                hiddenInput.value = Math.abs(userInput.value);
+            }
+        }
+
+        function SetClass(caller) {
+            var classInput = document.getElementById("classInput");
+            classInput.value = caller.innerHTML;
+        }
+    </script>
+}

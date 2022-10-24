@@ -27,6 +27,12 @@ namespace ProjectEtoPrototype.Controllers
 
             QuranHandler.SetAndGetVerse(user.Preference.SurahId, user.Preference.VerseId);
 
+            foreach (var dailyTask in user.DailyTasks.Where(obj => 24 - (DateTime.Now - obj.CreatedDate).TotalHours <= 0))
+            {
+                Db.DailyTasks.Remove(dailyTask);
+            }
+            Db.SaveChanges();
+
             return View(user);
         }
 

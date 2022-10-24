@@ -7,7 +7,7 @@ namespace ProjectEtoPrototype.Models
     public class Preference
     {
         [Key]
-        public string PreferenceId { get; set; }
+        public int PreferenceId { get; set; }
 
         public string Theme { get; set; } = "LightOrange";
 
@@ -17,5 +17,8 @@ namespace ProjectEtoPrototype.Models
 
         public int SurahId { get; set; } = 1;
         public int VerseId { get; set; } = 1;
+
+        public User User { get; set; }
+        public string UserId { get; set; }
     }
 }

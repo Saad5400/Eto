@@ -55,11 +55,7 @@ namespace ProjectEtoPrototype.Controllers
             };
             User user = new User
             {
-                UserId = userId,
-                Preference = new Preference
-                {
-                    PreferenceId = userId
-                }
+                UserId = userId
             };
             if (ModelState.IsValid)
             {
@@ -68,6 +64,8 @@ namespace ProjectEtoPrototype.Controllers
             }
 
             Response.Cookies.Append(key, userId, cookieOptions);
+            Response.Cookies.Append("Theme", "LightOrange", cookieOptions);
+
             if (count == null || count == 0)
             {
                 count = 1;
@@ -128,11 +126,14 @@ namespace ProjectEtoPrototype.Controllers
             }
             string key = "UserID";
             string value = user.UserId;
+            user.Preference = Db.Preferences.First(p => p.UserId == user.UserId);
             CookieOptions cookieOptions = new CookieOptions
             {
                 Expires = DateTime.Now.AddYears(1),
             };
             Response.Cookies.Append(key, value, cookieOptions);
+            Response.Cookies.Append("Theme", user.Preference.Theme, cookieOptions);
+
             return RedirectToAction("Index", "Home");
         }
 
