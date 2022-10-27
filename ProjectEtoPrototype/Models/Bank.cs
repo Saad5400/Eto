@@ -29,6 +29,11 @@ namespace ProjectEtoPrototype.Models
         [Required]
         public string Class { get; set; }
 
+        public DateTime? CreatedDate { get; set; } = DateTime.Now;
+
+
+        // relations
+
         public Bank? Bank { get; set; }
         public int BankId { get; set; }
 

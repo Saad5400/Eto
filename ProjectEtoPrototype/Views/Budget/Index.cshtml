@@ -4,6 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
 <body dir="rtl">
     
 <a class="btn btn-primary" style="font-size: x-large; position: fixed; bottom: 3%; right: 5%;"
@@ -19,15 +21,129 @@
             </h1>
         </div>
         <div class="col-6 text-start text-primary">
-            <p class="h1">
-                @Model.Bank.Balance
-                <i class="bi bi-coin"></i>
-            </p>
+            <h1 class="h1">
+                @System.Math.Round(Model.Bank.Balance, 2)
+                <i class="bi bi-wallet2"></i>
+            </h1>
         </div>
     </div>
     
-    @* TODO: add list of operations and read more option *@
+    @* TODO: add list of operations and read more option DONE *@
+    <br/> <br/>
+    <div class="row">
+        <h5 class="text-end text-info">
+            اخر العمليات
+            <i class="bi bi-table"></i>
+        </h5>
+    </div>
+    <div class="row">
+        <table class="table table-striped table-bordered">
+            <tr class="table-primary">
+                <th width="45%" data-toggle="tooltip" data-placement="right" title=" اضغط للتعديل">
+                    الوصف
+                    <i class="bi bi-info-circle"></i>
+                </th>
+                <th width="11%">
+                    الصنف
+                </th>
+                <th width="11%">
+                    المبلغ
+                    <i class="bi bi-currency-dollar"></i>
+                </th>
+            </tr>
+            <tbody id="alwaysShownSec">
+
+            @for (int i = 0; i < 6 && i < Model.Bank.Operations.Count; i++)
+            {
+                Operation obj = Model.Bank.Operations.OrderByDescending(x => x.CreatedDate).ToList()[i];
+                <tr>
+                    <td data-toggle="tooltip" data-placement="right" title="@obj.CreatedDate.GetValueOrDefault(DateTime.Now)">
+                        <a asp-controller="Budget" asp-action="EditOperation" asp-route-operationId="@obj.OperationId">
+                            @obj.Description
+                        </a>
+                    </td>
+                    <td>
+                        @obj.Class
+                    </td>
+                    @if (@obj.Amount > 0)
+                    {
+                        <td>
+                            +@obj.Amount
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @obj.Amount
+                        </td>
+                    }
+                </tr>
+            }
+            
+            </tbody>
+
+            <tbody hidden="" id="hiddenSec">
+            @for (int i = 6; i < Model.Bank.Operations.Count; i++)
+            {
+                Operation obj = Model.Bank.Operations.OrderByDescending(x => x.CreatedDate).ToList()[i];
+                <tr>
+                    <td data-toggle="tooltip" data-placement="right" title="@obj.CreatedDate.GetValueOrDefault(DateTime.Now)">
+                        <a asp-controller="Budget" asp-action="EditOperation" asp-route-operationId="@obj.OperationId">
+                            @obj.Description
+                        </a>
+                    </td>
+                    <td>
+                        @obj.Class
+                    </td>
+                    @if (@obj.Amount > 0)
+                    {
+                        <td>
+                            +@obj.Amount
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @obj.Amount
+                        </td>
+                    }
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="row text-center">
+        <a class="btn btn-outline-primary" id="showMoreOpBtn" onclick="SwitchMoreOp(this);">
+            اظهار المزيد
+            <i class="bi bi-arrow-bar-down"></i>
+        </a>
+    </div>
 
 </div>
 
+
 </body>
+
+@section Scripts
+    {
+    <script type="text/javascript">
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        function SwitchMoreOp(btn) {
+
+            myTBody = document.getElementById("hiddenSec");
+
+            if (myTBody.hidden) {
+                myTBody.hidden = false;
+                btn.innerHTML = 'اخفاء <i class="bi bi-arrow-bar-up"></i>';
+            } else {
+                myTBody.hidden = true;
+                btn.innerHTML = 'اظهار المزيد <i class="bi bi-arrow-bar-down"></i>';
+            }
+        }
+
+    </script>
+}
