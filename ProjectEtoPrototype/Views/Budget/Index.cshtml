@@ -16,7 +16,7 @@
 <div class="mt-4 container">
     <div class="row">
         <div class="col-6">
-            <h1 class="text-info unselectable">
+            <h1 class="unselectable">
                 تتبع المصاريف
             </h1>
         </div>
@@ -141,12 +141,40 @@
                 </tr>
                 @* TODO: Complete this *@
                 <tbody>
+                @{
+                    var withdrawsEnumerable =
+                        from obj in Model.Bank.Operations
+                        where obj.Amount < 0
+                        select obj;
 
-                    @foreach (var obj in Model.Bank.Operations)
+                    var total =
+                        (from obj in withdrawsEnumerable
+                        select obj.Amount).Sum();
+
+                    foreach (var obj in (
+                        from obj in withdrawsEnumerable
+                        orderby obj.Amount
+                        select obj.Class
+                        ).Distinct())
                     {
-                        
+                        <tr>
+                            <td>
+                                @obj
+                            </td>
+                            <td>
+                                <div class="progress">
+                                    @{
+                                        var classTotal = (from x in withdrawsEnumerable
+                                            where x.Class == obj
+                                            select x.Amount).Sum();
+                                    }
+                                        <div class="progress-bar" role="progressbar" style="width: @($"{classTotal * 100 / total}%");"
+                                         aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
                     }
-
+                }
                 </tbody>
             </table>
         </div>
