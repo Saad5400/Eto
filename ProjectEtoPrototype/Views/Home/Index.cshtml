@@ -2,17 +2,17 @@
 
 @{
     ViewData["Title"] = "الرئيسية";
-    
+
 }
 
 
 <head>
     <script type="text/javascript">
         var map =
-            [
-                "&\#1632;", "&\#1633;", "&\#1634;", "&\#1635;", "&\#1636;",
-                "&\#1637;", "&\#1638;", "&\#1639;", "&\#1640;", "&\#1641;"
-            ];
+        [
+            "&\#1632;", "&\#1633;", "&\#1634;", "&\#1635;", "&\#1636;",
+            "&\#1637;", "&\#1638;", "&\#1639;", "&\#1640;", "&\#1641;"
+        ];
 
         function getArabicNumbers(str) {
             var newStr = "";
@@ -24,6 +24,15 @@
             }
 
             return newStr;
+        }
+
+        function AddCaloriesJS(id, amount) {
+            $.ajax({
+                url: 'Home/AddCaloriesApi?userId=' + id + '&amount=' + amount,
+            }).done(function() {
+                caloriesLabel = document.getElementById('caloriesLabelText');
+                caloriesLabel.innerHTML = parseInt(caloriesLabel.innerHTML) + parseInt(amount);
+            });
         }
     </script>
 </head>
@@ -43,7 +52,7 @@
                 @QuranHandler.VerseID
             </p>
             <script type="text/javascript">
-                window.onload = function () {
+                window.onload = function() {
                     document.getElementById("verseNameAndNumber").innerHTML = "@QuranHandler.ChapterName " + getArabicNumbers(@QuranHandler.VerseID);
                 }
             </script>
@@ -61,7 +70,8 @@
                 </a>
             </div>
         </div>
-        @if (TempData["QuranComplete"] != null) {
+        @if (TempData["QuranComplete"] != null)
+        {
             <div class="row mt-1">
                 <div class="alert alert-dismissible alert-success">
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -70,8 +80,8 @@
             </div>
         }
 
-        <br />
-        <br />
+        <br/>
+        <br/>
         <div class="row">
             <h5 class="text-end text-info">
                 جدول المهام اليومية
@@ -86,8 +96,8 @@
                             اضافة
                             <i class="bi bi-plus-lg"></i>
                         </button>
-                        <input class="form-control form-control-sm" dir="rtl" 
-                        placeholder="ادخل الاسم" asp-for="TempData"/>
+                        <input class="form-control form-control-sm" dir="rtl"
+                               placeholder="ادخل الاسم" asp-for="TempData"/>
                     </div>
                 </div>
                 <div class="col-4">
@@ -118,7 +128,8 @@
                         <i class="bi bi-gear"></i>
                     </th>
                 </tr>
-                @foreach (var obj in Model.DailyTasks) {
+                @foreach (var obj in Model.DailyTasks)
+                {
                     <tr>
                         <td>
                             @obj.Name
@@ -129,12 +140,12 @@
                         </td>
                         <td>
                             <div class="btn-group" role="group" dir="ltr">
-                                <a class="btn btn-sm btn-outline-success" 
-                                asp-controller="Home" asp-action="RemoveDailyTask" asp-route-taskId="@obj.TaskID">
+                                <a class="btn btn-sm btn-outline-success"
+                                   asp-controller="Home" asp-action="RemoveDailyTask" asp-route-taskId="@obj.TaskID">
                                     <i class="bi bi-check2-square"></i>
                                 </a>
                                 <a class="btn btn-sm btn-outline-secondary"
-                               asp-controller="Home" asp-action="DelayDailyTask" asp-route-taskId="@obj.TaskID">
+                                   asp-controller="Home" asp-action="DelayDailyTask" asp-route-taskId="@obj.TaskID">
                                     <i class="bi bi-stopwatch"></i>
                                 </a>
                             </div>
@@ -152,30 +163,30 @@
         </div>
         <div class="row mb-3">
             <label class="text-center text-primary" style="font-size: large;">
-                <strong>@Model.Preference.CurrentCalories</strong>
+                <strong id="caloriesLabelText">@Model.Preference.CurrentCalories</strong>
             </label>
         </div>
         <div class="row">
             <div class="col-6 btn-group d-flex justify-content-center" role="group" dir="ltr">
 
-                <a class="btn btn-outline-primary" dir="rtl" asp-controller="Home" asp-action="AddCalories" asp-route-amount="450">
+                <a class="btn btn-outline-primary" dir="rtl" onclick="AddCaloriesJS('@Model.UserId', '450')">
                     +450
                 </a>
-                <a class="btn btn-outline-primary" dir="rtl" asp-controller="Home" asp-action="AddCalories" asp-route-amount="150">
+                <a class="btn btn-outline-primary" dir="rtl" onclick="AddCaloriesJS('@Model.UserId', '150')">
                     +150
                 </a>
-                <a class="btn btn-outline-primary" dir="rtl" asp-controller="Home" asp-action="AddCalories" asp-route-amount="50">
+                <a class="btn btn-outline-primary" dir="rtl" onclick="AddCaloriesJS('@Model.UserId', '50')">
                     +50
                 </a>
             </div>
             <div class="col-6 btn-group d-flex justify-content-center" role="group" dir="ltr">
-                <a class="btn btn-outline-secondary" dir="rtl" asp-controller="Home" asp-action="AddCalories" asp-route-amount="-50">
+                <a class="btn btn-outline-secondary" dir="rtl" onclick="AddCaloriesJS('@Model.UserId', '-50')">
                     -50
                 </a>
-                <a class="btn btn-outline-secondary" dir="rtl" asp-controller="Home" asp-action="AddCalories" asp-route-amount="-150">
+                <a class="btn btn-outline-secondary" dir="rtl" onclick="AddCaloriesJS('@Model.UserId', '-150')">
                     -150
                 </a>
-                <a class="btn btn-outline-secondary" dir="rtl" asp-controller="Home" asp-action="AddCalories" asp-route-amount="-450">
+                <a class="btn btn-outline-secondary" dir="rtl" onclick="AddCaloriesJS('@Model.UserId', '-450')">
                     -450
                 </a>
             </div>

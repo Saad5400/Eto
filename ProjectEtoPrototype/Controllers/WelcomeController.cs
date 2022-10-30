@@ -167,21 +167,5 @@ namespace ProjectEtoPrototype.Controllers
         {
             return RedirectToAction("Index", "Home");
         }
-
-        public IActionResult RemoveAll()
-        {
-            Db.Preferences.RemoveRange(Db.Preferences);
-            Db.DailyTasks.RemoveRange(Db.DailyTasks);
-            Db.Users.RemoveRange(Db.Users);
-
-            CookieOptions cookieOptions = new CookieOptions
-            {
-                Expires = DateTime.Now.AddDays(-1),
-            };
-            Response.Cookies.Append("accountsCount", "0", cookieOptions);
-
-            Db.SaveChanges();
-            return RedirectToAction("Login", "Welcome");
-        }
     }
 }

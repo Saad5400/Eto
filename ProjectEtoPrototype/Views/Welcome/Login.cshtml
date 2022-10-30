@@ -10,8 +10,8 @@
         تسجيل الدخول
     </h1>
     <div class="row input-group-lg px-4">
-        <input class="form-control" placeholder="ادخل رقم الايدي" style="width:80%" asp-for="UserId"/>
-        <button class="btn btn-outline-primary" style="width:20%">
+        <input class="form-control" placeholder="ادخل رقم الايدي" style="width:80%" asp-for="UserId" aria-describedby="buttonSubmit" />
+        <button class="btn btn-outline-primary" style="width:20%" type="submit" id="buttonSubmit">
             دخول
         </button>
         <span class="text-danger pt-3 text-end">
@@ -34,7 +34,7 @@
                 if (pastUsersId[i] == null) { continue; }
                 TempData["HasPastAccounts"] = "اخر الحسابات المسجلة:";
                 <div class="row">
-                    <p class="text-end text-light">
+                    <p class="text-end">
                         @pastUsersId[i]
                         <a class="btn btn-outline-light border-0 text-danger" asp-controller="Welcome" asp-action="HideUserId" asp-route-order="@i">
                             <i class="bi bi-eye-slash"></i>

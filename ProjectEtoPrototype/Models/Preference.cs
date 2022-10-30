@@ -11,7 +11,7 @@ namespace ProjectEtoPrototype.Models
 
         public string Theme { get; set; } = "LightOrange";
 
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime CaloriesLstDateTime { get; set; } = DateTime.Now;
         public int CurrentCalories { get; set; } = 0;
         public int MaxCalories { get; set; } = 1800;
 

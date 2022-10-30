@@ -20,11 +20,11 @@
         </div>
     </div>
     <div class="mt-3 mx-2 row">
-        <input class="form-control" placeholder="ادخل وصف او اسم العملية" asp-for="Description" />
+        <input class="form-control" placeholder="ادخل وصف او اسم العملية" asp-for="Description"/>
     </div>
     <div class="mt-3 mx-2 row">
         <div class="col-6">
-            <input class="form-control" placeholder="ادخل او اختر تصنيف العملية" asp-for="Class" id="classInput" />
+            <input class="form-control" placeholder="ادخل او اختر تصنيف العملية" asp-for="Class" id="classInput"/>
 
         </div>
 
@@ -34,7 +34,7 @@
                 <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
                     @* TODO: complete this *@
-                    @foreach (string str in Model.lastClasses)
+                    @foreach (var str in Model.lastClasses)
                     {
                         <a class="dropdown-item" href="#" onclick="SetClass(this)">@str</a>
                     }
@@ -43,13 +43,13 @@
         </div>
     </div>
     <div class="mt-3 mx-2 row">
-        <input class="form-control" placeholder="ادخل المبلغ" disabled="" oninput="SetAmount();" id="userInput" type="number" />
-        <input asp-for="Amount" id="amountInput" hidden="" />
+        <input class="form-control" placeholder="ادخل المبلغ" disabled="" oninput="SetAmount();" id="userInput" type="number"/>
+        <input asp-for="Amount" id="amountInput" hidden=""/>
     </div>
     <input asp-for="BankId" hidden=""/>
     <input asp-for="Bank" hidden=""/>
     @* BUG: edit will also change the creation date FIXEEDD *@
-    <br /> <br />
+    <br/> <br/>
     @if (TempData["OperationError"] != null)
     {
         <div class="alert alert-dismissible alert-danger">
@@ -102,6 +102,6 @@
 
         window.onload = function() {
             ReverseSetAmount();
-        }
+        };
     </script>
 }

@@ -1,126 +1,129 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.DotNet.Scaffolding.Shared.CodeModifier.CodeChange;
-using Newtonsoft.Json;
-using ProjectEtoPrototype.Data;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectEtoPrototype.Models;
-using System.Diagnostics;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace ProjectEtoPrototype.Controllers
+namespace ProjectEtoPrototype.Controllers;
+
+public class HomeController : BaseController
 {
-    /* 
-     TODO: 
-    المصروفات 
-    المستخدم يضغط زائد 
-    يحط الاسم (يطلع له اخر الاسماء)
-    يحط الوصف
-    يحط المبلغ 
-    يختار دخل او مصروف
-    فيه زر يوريك الملخص والاحصائيات
-     */
-    public class HomeController : BaseController
+    public IActionResult Index()
     {
-        public IActionResult Index()
-        {
-            if (CheckUserExist(Request) != null) { return CheckUserExist(Request); }
-            User user = GetUser(Request);
+        if (CheckUserExist(Request) != null) return CheckUserExist(Request);
+        var user = GetUser(Request);
 
-            QuranHandler.SetAndGetVerse(user.Preference.SurahId, user.Preference.VerseId);
+        QuranHandler.SetAndGetVerse(user.Preference.SurahId, user.Preference.VerseId);
 
-            foreach (var dailyTask in user.DailyTasks.Where(obj => 24 - (DateTime.Now - obj.CreatedDate).TotalHours <= 0))
-            {
-                Db.DailyTasks.Remove(dailyTask);
-            }
-            Db.SaveChanges();
-
-            return View(user);
-        }
-
-        public IActionResult PreVerse()
-        {
-            if (CheckUserExist(Request) != null) { return CheckUserExist(Request); }
-            User user = GetUser(Request);
-
-            QuranHandler.SetAndGetVerse(user.Preference.SurahId, user.Preference.VerseId);
-            QuranHandler.PreviousVerse();
-            user.Preference.SurahId = QuranHandler.ChapterID;
-            user.Preference.VerseId = QuranHandler.VerseID;
-            Db.SaveChanges();
-            return RedirectToAction("Index", "Home");
-        }
-        public IActionResult NextVerse()
-        {
-            if (CheckUserExist(Request) != null) { return CheckUserExist(Request); }
-            User user = GetUser(Request);
-
-            QuranHandler.SetAndGetVerse(user.Preference.SurahId, user.Preference.VerseId);
-            QuranHandler.NextVerse();
-            user.Preference.SurahId = QuranHandler.ChapterID;
-            user.Preference.VerseId = QuranHandler.VerseID;
-            Db.SaveChanges();
-
-            if (user.Preference.SurahId == 1 && user.Preference.VerseId == 1)
-            {
-                TempData["QuranComplete"] = "true";
-            }
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddDailyTask(User passedUser)
-        {
-            if (String.IsNullOrEmpty(passedUser.TempData))
-            {
-                TempData["AddDailyTaskError"] = "يجب ادخال الاسم";
-                return Redirect(Request.Headers["Referer"].ToString());
-            }
-
-            if (CheckUserExist(Request) != null) { return CheckUserExist(Request); }
-            User user = GetUser(Request);
-
-            user.DailyTasks.Add(new DailyTask { Name = passedUser.TempData });
-            Db.SaveChanges();
-
-            return Redirect(Request.Headers["Referer"].ToString());
-        }
-        public IActionResult RemoveDailyTask(int taskId)
-        {
-            DailyTask dailyTask = Db.DailyTasks.Find(taskId);
+        foreach (var dailyTask in user.DailyTasks.Where(obj => 24 - (DateTime.Now - obj.CreatedDate).TotalHours <= 0))
             Db.DailyTasks.Remove(dailyTask);
+        Db.SaveChanges();
 
-            Db.SaveChanges();
-
-            return Redirect(Request.Headers["Referer"].ToString());
-        }
-        public IActionResult DelayDailyTask(int taskId)
+        if ((DateTime.Now - user.Preference.CaloriesLstDateTime).TotalHours >= 24)
         {
-            DailyTask dailyTask = Db.DailyTasks.Find(taskId);
-            dailyTask.CreatedDate = dailyTask.CreatedDate.AddHours(2);
-
+            user.Preference.CaloriesLstDateTime = DateTime.Now;
+            user.Preference.CurrentCalories = user.Preference.MaxCalories;
             Db.SaveChanges();
-
-            return Redirect(Request.Headers["Referer"].ToString());
         }
 
-        public IActionResult AddCalories(int amount)
+        return View(user);
+    }
+
+    public IActionResult PreVerse()
+    {
+        if (CheckUserExist(Request) != null) return CheckUserExist(Request);
+        var user = GetUser(Request);
+
+        QuranHandler.SetAndGetVerse(user.Preference.SurahId, user.Preference.VerseId);
+        QuranHandler.PreviousVerse();
+        user.Preference.SurahId = QuranHandler.ChapterID;
+        user.Preference.VerseId = QuranHandler.VerseID;
+        Db.SaveChanges();
+        return RedirectToAction("Index", "Home");
+    }
+
+    public IActionResult NextVerse()
+    {
+        if (CheckUserExist(Request) != null) return CheckUserExist(Request);
+        var user = GetUser(Request);
+
+        QuranHandler.SetAndGetVerse(user.Preference.SurahId, user.Preference.VerseId);
+        QuranHandler.NextVerse();
+        user.Preference.SurahId = QuranHandler.ChapterID;
+        user.Preference.VerseId = QuranHandler.VerseID;
+        Db.SaveChanges();
+
+        if (user.Preference.SurahId == 1 && user.Preference.VerseId == 1) TempData["QuranComplete"] = "true";
+
+        return RedirectToAction("Index", "Home");
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult AddDailyTask(User passedUser)
+    {
+        if (string.IsNullOrEmpty(passedUser.TempData))
         {
-            if (CheckUserExist(Request) != null) { return CheckUserExist(Request); }
-            User user = GetUser(Request);
-
-            user.Preference.CurrentCalories += amount;
-            Db.SaveChanges();
-
+            TempData["AddDailyTaskError"] = "يجب ادخال الاسم";
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
+        if (CheckUserExist(Request) != null) return CheckUserExist(Request);
+        var user = GetUser(Request);
+
+        user.DailyTasks.Add(new DailyTask { Name = passedUser.TempData });
+        Db.SaveChanges();
+
+        return Redirect(Request.Headers["Referer"].ToString());
+    }
+
+    public IActionResult RemoveDailyTask(int taskId)
+    {
+        var dailyTask = Db.DailyTasks.Find(taskId);
+        Db.DailyTasks.Remove(dailyTask);
+
+        Db.SaveChanges();
+
+        return Redirect(Request.Headers["Referer"].ToString());
+    }
+
+    public IActionResult DelayDailyTask(int taskId)
+    {
+        var dailyTask = Db.DailyTasks.Find(taskId);
+        dailyTask.CreatedDate = dailyTask.CreatedDate.AddHours(2);
+
+        Db.SaveChanges();
+
+        return Redirect(Request.Headers["Referer"].ToString());
+    }
+
+    // TODO: add and remove calories from frontend without reloading page
+    public IActionResult AddCalories(int amount)
+    {
+        if (CheckUserExist(Request) != null) return CheckUserExist(Request);
+        var user = GetUser(Request);
+
+        user.Preference.CurrentCalories += amount;
+        Db.SaveChanges();
+
+        return Redirect(Request.Headers["Referer"].ToString());
+    }
+
+    public void AddCaloriesApi(string userId, int amount)
+    {
+        User? user = Db.Users
+            .Include(u => u.Preference)
+            .First(u => u.UserId == userId);
         
+        if (user == null) return;
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        user.Preference.CurrentCalories += amount;
+        Db.SaveChanges();
+    }
+
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

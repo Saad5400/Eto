@@ -116,5 +116,18 @@ namespace ProjectEtoPrototype.Controllers
 
             return RedirectToAction("Index", "Budget");
         }
+
+        public IActionResult Reset()
+        {
+            if (CheckUserExist(Request) != null) { return CheckUserExist(Request); }
+            User user = GetUser(Request);
+
+            Db.Operations.RemoveRange(user.Bank.Operations);
+
+            user.Bank.Balance = 0;
+
+            Db.SaveChanges();
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
     }
 }

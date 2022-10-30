@@ -1,4 +1,4 @@
-﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+﻿@inject IHttpContextAccessor HttpContextAccessor
 
 
 @*@{
@@ -8,82 +8,83 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - ProjectEtoPrototype</title>
     @{
         var cookies = HttpContextAccessor.HttpContext.Request.Cookies;
-        if (cookies["Theme"] == "LightOrange") {
-            <link rel="stylesheet" href="~/css/bootswatchThemeLight.css" />
+        if (cookies["Theme"] == "LightOrange")
+        {
+            <link rel="stylesheet" href="~/css/bootswatchThemeLight.css"/>
         }
         if (cookies["Theme"] == "DarkBlue")
         {
-            <link rel="stylesheet" href="~/css/bootswatchThemeDark.css" />
+            <link rel="stylesheet" href="~/css/bootswatchThemeDark.css"/>
         }
     }
 
-    <link rel="stylesheet" href="~/css/MyStyleSheet.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ProjectEtoPrototype.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/MyStyleSheet.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/ProjectEtoPrototype.styles.css" asp-append-version="true"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 </head>
 <body class="droid-arabic-kufi">
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary" dir="rtl">
-            <div class="container-fluid">
- @*               <div style="width:80%">
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" dir="rtl">
+        <div class="container-fluid">
+            @*               <div style="width:80%">
 
                 </div>*@
-                <a class="navbar-brand align-content-end" asp-controller="Home" asp-action="Index">
-                    مشروع ETO
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarColor02">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">
-                                الرئيسية
-                                <span class="visually-hidden">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Prayers" asp-action="Index">الأذكار</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Budget" asp-action="Index">تتبع المصاريف</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Settings" asp-action="Index">الاعدادات والتفضيلات</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-black" asp-controller="Settings" asp-action="SwitchTheme">
-                                تغيير المظهر
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-bg-danger" asp-controller="Welcome" asp-action="Logout">تسجيل الخروج</a>
-                        </li>
-                    </ul>
-                </div>
+            <a class="navbar-brand align-content-end" asp-controller="Home" asp-action="Index">
+                مشروع ETO
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">
+                            الرئيسية
+                            <span class="visually-hidden">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Prayers" asp-action="Index">الأذكار</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Budget" asp-action="Index">تتبع المصاريف</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Settings" asp-action="Index">الاعدادات والتفضيلات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-black" asp-controller="Settings" asp-action="SwitchTheme">
+                            تغيير المظهر
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-bg-danger" asp-controller="Welcome" asp-action="Logout">تسجيل الخروج</a>
+                    </li>
+                </ul>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+        </div>
+    </nav>
+</header>
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
 
 @*    <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 1444 - ProjectEtoPrototype - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>*@
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", false)
 </body>
 </html>
