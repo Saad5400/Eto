@@ -13,7 +13,7 @@ namespace ProjectEtoPrototype.Controllers
     {
         public IActionResult Index()
         {
-            if (Request.Cookies["UserID"] != null)
+            if (Request.Cookies["UserID"] is not null)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -24,71 +24,56 @@ namespace ProjectEtoPrototype.Controllers
         // GET
         public IActionResult Register()
         {
-            string key = "UserID";
-            string countKey = "accountsCount";
-            int? count = Convert.ToInt32(Request.Cookies[countKey]);
-            string?[] pastUsersId = new string?[] { 
+            // how many accounts were created on this account
+            var countKey = "accountsCount";
+            var count = Convert.ToInt32(Request.Cookies[countKey]);
+
+            var pastUsersId = new string?[] { 
                 Request.Cookies["UserId1"],
                 Request.Cookies["UserId2"],
                 Request.Cookies["UserId3"]
             };
 
-            if (count == null)
-            {
-
-            }
-            else if (count >= 3)
+            // prevent user from creating more than 3 accounts
+            if (count >= 3)
             {
                 TempData["LoginError"] = "ما تقدر تسجل اكثر من 3 حسابات لكل جهاز";
                 return RedirectToAction("Login", "Welcome");
             }
 
+            // use the id manager to generate an id
             string userId;
             do
-            {
+            { 
+                // keep generating until getting a new id that doesn't exist
                 userId = IdManager.GenerateNewId();
-            } while (Db.Users.Find(userId) != null);
+            } while (Db.Users.Find(userId) is not null);
             
-            CookieOptions cookieOptions = new CookieOptions
-            {
-                Expires = DateTime.Now.AddYears(1),
-            };
-            User user = new User
-            {
-                UserId = userId
-            };
-            if (ModelState.IsValid)
-            {
-                Db.Add(user);
-                Db.SaveChanges();
-            }
+            CookieOptions cookieOptions = new CookieOptions{ Expires = DateTime.Now.AddYears(1) };
 
-            Response.Cookies.Append(key, userId, cookieOptions);
+            // create new user object
+            User user = new User{ UserId = userId };
+
+            // add that user object to database
+            Db.Add(user);
+            Db.SaveChanges();
+
+            // adding new registered user id to the list
+            pastUsersId[count] = userId;
+            count += 1;
+
+            // adding user id to cookies
+            Response.Cookies.Append("UserID", userId, cookieOptions);
+            // theme
             Response.Cookies.Append("Theme", "LightOrange", cookieOptions);
+            // how many accounts
+            Response.Cookies.Append(countKey, count.ToString()!, cookieOptions);
 
-            if (count == null || count == 0)
-            {
-                count = 1;
-                Response.Cookies.Append(countKey, count.ToString(), cookieOptions);
-                pastUsersId[0] = userId;
-            }
-            else if (count == 1)
-            {
-                count += 1;
-                Response.Cookies.Append(countKey, count.ToString(), cookieOptions);
-                pastUsersId[1] = userId;
-            }
-            else
-            {
-                count += 1;
-                Response.Cookies.Append(countKey, count.ToString(), cookieOptions);
-                pastUsersId[2] = userId;
-            }
-
+            // adding each account id
             for (int i = 0; i < 3; i++)
             {
-                if (pastUsersId[i] == null) { continue; }
-                Response.Cookies.Append($"UserId{i+1}", pastUsersId[i], cookieOptions);
+                if (pastUsersId[i] is null) { continue; }
+                Response.Cookies.Append($"UserId{i+1}", pastUsersId[i]!, cookieOptions);
             }
 
             return RedirectToAction("RegisterPage", "Welcome", user);
@@ -96,6 +81,7 @@ namespace ProjectEtoPrototype.Controllers
 
         public IActionResult RegisterPage(User user)
         {
+            // just a linking so that when user refresh the page no new accounts are created
             return View("Register", user);
         }
 
@@ -104,17 +90,19 @@ namespace ProjectEtoPrototype.Controllers
         {
             return View();
         }
+
         // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(User user)
+        public IActionResult Login(User? user)
         {
-            if (user == null)
+            // some checking. checking if account exist
+            if (user is null)
             {
                 TempData["LoginError"] = "يجب ادخال الايدي";
                 return View(user);
             }
-            if (user.UserId == null)
+            if (string.IsNullOrEmpty(user.UserId))
             {
                 TempData["LoginError"] = "يجب ادخال الايدي";
                 return View(user);
@@ -124,14 +112,17 @@ namespace ProjectEtoPrototype.Controllers
                 TempData["LoginError"] = "الايدي غير صحيح";
                 return View(user);
             }
-            string key = "UserID";
-            string value = user.UserId;
+            var exist = CheckUserExist(user.UserId);
+            if (exist is not null) { return exist; }
+
+            // just so we can add the theme to cookies
             user.Preference = Db.Preferences.First(p => p.UserId == user.UserId);
+            
             CookieOptions cookieOptions = new CookieOptions
             {
                 Expires = DateTime.Now.AddYears(1),
             };
-            Response.Cookies.Append(key, value, cookieOptions);
+            Response.Cookies.Append("UserID", user.UserId, cookieOptions);
             Response.Cookies.Append("Theme", user.Preference.Theme, cookieOptions);
 
             return RedirectToAction("Index", "Home");
@@ -140,6 +131,7 @@ namespace ProjectEtoPrototype.Controllers
 
         public IActionResult HideUserId(int order)
         {
+            // remove one of the IDs from اخر الحسابات
             order++;
             CookieOptions cookieOptions = new CookieOptions
             {
@@ -150,9 +142,9 @@ namespace ProjectEtoPrototype.Controllers
             return RedirectToAction("Login", "Welcome");
         }
 
-        // GET
         public IActionResult Logout()
         {
+            // remove user id from cookies
             string key = "UserID";
             string value = String.Empty;
             CookieOptions cookieOptions = new CookieOptions
@@ -161,11 +153,6 @@ namespace ProjectEtoPrototype.Controllers
             };
             Response.Cookies.Append(key, value, cookieOptions);
             return RedirectToAction("Index", "Welcome");
-        }
-
-        public IActionResult Enter()
-        {
-            return RedirectToAction("Index", "Home");
         }
     }
 }

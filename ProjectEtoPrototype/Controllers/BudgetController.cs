@@ -8,7 +8,9 @@ namespace ProjectEtoPrototype.Controllers
     {
         public IActionResult Index()
         {
-            if (CheckUserExist(Request) != null) { return CheckUserExist(Request); }
+            // exist is a page that will be null if the user does exist
+            var exist = CheckUserExist(Request);
+            if (exist is not null) { return exist; }
             User user = GetUser(Request);
 
             return View(user);
@@ -17,25 +19,30 @@ namespace ProjectEtoPrototype.Controllers
         // GET
         public IActionResult CreateOperation()
         {
-            if (CheckUserExist(Request) != null) { return CheckUserExist(Request); }
+            // exist is a page that will be null if the user does exist
+            var exist = CheckUserExist(Request);
+            if (exist is not null) { return exist; }
             User user = GetUser(Request);
 
             Operation oper = new Operation
             {
+                // getting all the classes used
                 lastClasses = 
-                    (from obj in Db.Operations
-                    where obj.Bank == user.Bank
-                        select obj.Class).Distinct().ToList()
+                    (from obj in user.Bank.Operations
+                    select obj.Class).Distinct().ToList()
             };
 
             return View(oper);
         }
 
+        // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateOperation(Operation operation)
         {
-            if (CheckUserExist(Request) != null) { return CheckUserExist(Request); }
+            // exist is a page that will be null if the user does exist
+            var exist = CheckUserExist(Request);
+            if (exist is not null) { return exist; }
             User user = GetUser(Request);
 
             operation.Bank = user.Bank;
@@ -46,7 +53,10 @@ namespace ProjectEtoPrototype.Controllers
                     (from obj in Db.Operations
                         where obj.Bank == user.Bank
                         select obj.Class).ToList();
+
+                // this will display a message in frontend
                 TempData["OperationError"] = "true";
+
                 return View(operation);
             }
 
@@ -61,11 +71,13 @@ namespace ProjectEtoPrototype.Controllers
         // GET
         public IActionResult EditOperation(int operationId)
         {
-            if (CheckUserExist(Request) != null) { return CheckUserExist(Request); }
+            // exist is a page that will be null if the user does exist
+            var exist = CheckUserExist(Request);
+            if (exist is not null) { return exist; }
             User user = GetUser(Request);
 
-            Operation operation = Db.Operations.Find(operationId);
-            operation.lastClasses =
+            Operation? operation = Db.Operations.Find(operationId);
+            operation!.lastClasses =
                 (from obj in Db.Operations
                     where obj.Bank == user.Bank
                     select obj.Class).Distinct().ToList();
@@ -76,8 +88,11 @@ namespace ProjectEtoPrototype.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditOperation(Operation operation)
         {
-            if (CheckUserExist(Request) != null) { return CheckUserExist(Request); }
+            // exist is a page that will be null if the user does exist
+            var exist = CheckUserExist(Request);
+            if (exist is not null) { return exist; }
             User user = GetUser(Request);
+
             if (!ModelState.IsValid || operation.Amount == 0)
             {
                 operation.lastClasses =
@@ -88,8 +103,8 @@ namespace ProjectEtoPrototype.Controllers
                 return View(operation);
             }
 
-            Operation saveOperation = user.Bank.Operations.Find(x => x.OperationId == operation.OperationId);
-            operation.CreatedDate = saveOperation.CreatedDate;
+            Operation? saveOperation = user.Bank.Operations.Find(x => x.OperationId == operation.OperationId);
+            operation.CreatedDate = saveOperation!.CreatedDate;
             user.Bank.Operations.Remove(saveOperation);
 
             user.Bank.Operations.Add(operation);
@@ -104,12 +119,14 @@ namespace ProjectEtoPrototype.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult RemoveOperation(int operationId)
         {
-            if (CheckUserExist(Request) != null) { return CheckUserExist(Request); }
+            // exist is a page that will be null if the user does exist
+            var exist = CheckUserExist(Request);
+            if (exist is not null) { return exist; }
             User user = GetUser(Request);
 
-            Operation operation = Db.Operations.Find(operationId);
+            Operation? operation = Db.Operations.Find(operationId);
 
-            user.Bank.Balance -= operation.Amount;
+            user.Bank.Balance -= operation!.Amount;
 
             Db.Remove(operation);
             Db.SaveChanges();
@@ -119,7 +136,9 @@ namespace ProjectEtoPrototype.Controllers
 
         public IActionResult Reset()
         {
-            if (CheckUserExist(Request) != null) { return CheckUserExist(Request); }
+            // exist is a page that will be null if the user does exist
+            var exist = CheckUserExist(Request);
+            if (exist is not null) { return exist; }
             User user = GetUser(Request);
 
             Db.Operations.RemoveRange(user.Bank.Operations);

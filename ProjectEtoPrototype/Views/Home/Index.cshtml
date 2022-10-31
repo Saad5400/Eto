@@ -29,11 +29,44 @@
         function AddCaloriesJS(id, amount) {
             $.ajax({
                 url: 'Home/AddCaloriesApi?userId=' + id + '&amount=' + amount,
-            }).done(function() {
-                caloriesLabel = document.getElementById('caloriesLabelText');
+            }).done(function(response) {
+                var caloriesLabel = document.getElementById('caloriesLabelText');
                 caloriesLabel.innerHTML = parseInt(caloriesLabel.innerHTML) + parseInt(amount);
             });
         }
+
+        function UpdateQuranUi(data) {
+            var verseTextP = document.getElementById('verseText');
+            verseTextP.innerHTML = data["verse"];
+
+            var verseNameAndNumberP = document.getElementById('verseNameAndNumber');
+            verseNameAndNumberP.innerHTML = data["surah"] + ' ' + getArabicNumbers(data["verseNum"]);
+
+            var completeCongratsD = document.getElementById('completeCongrats');
+            completeCongratsD.hidden = true;
+        }
+
+        function GetPreVerse(id) {
+            $.ajax({
+                url: 'Home/GetPreVerse?userId=' + id,
+            }).done(function(response) {
+                UpdateQuranUi(response);
+            });
+        }
+
+        function GetNextVerse(id) {
+            $.ajax({
+                url: 'Home/GetNextVerse?userId=' + id,
+            }).done(function(response) {
+                UpdateQuranUi(response);
+
+                if (response["verseNum"] === '1' && response["surah"] === 'الفاتحة') {
+                    var completeCongratsD = document.getElementById('completeCongrats');
+                    completeCongratsD.hidden = false;
+                }
+            });
+        }
+
     </script>
 </head>
 
@@ -56,31 +89,29 @@
                     document.getElementById("verseNameAndNumber").innerHTML = "@QuranHandler.ChapterName " + getArabicNumbers(@QuranHandler.VerseID);
                 }
             </script>
-            <p class="text-center">
-                @QuranHandler.SetAndGetVerse(Model.Preference.SurahId, Model.Preference.VerseId);
+            <p class="text-center" id="verseText">
+                @QuranHandler.SetAndGetVerse(Model.Preference.SurahId, Model.Preference.VerseId)
             </p>
         </div>
         <div class="row" dir="ltr">
             <div class="btn-group btn-group-sm" role="group">
-                <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="PreVerse">
+                <a class="btn btn-outline-secondary" onclick="GetPreVerse('@Model.UserId');">
                     السابق
                 </a>
-                <a class="btn btn-outline-primary" asp-controller="Home" asp-action="NextVerse">
+                <a class="btn btn-outline-primary" onclick="GetNextVerse('@Model.UserId');">
                     التالي
                 </a>
             </div>
         </div>
-        @if (TempData["QuranComplete"] != null)
-        {
-            <div class="row mt-1">
-                <div class="alert alert-dismissible alert-success">
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    <strong>مبروك!</strong> على ختمك للقرآن.
-                </div>
-            </div>
-        }
 
-        <br/>
+        <div class="row mt-1" hidden="" id="completeCongrats">
+            <div class="alert alert-dismissible alert-success">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong>مبروك!</strong> على ختمك للقرآن.
+            </div>
+        </div>
+
+            <br/>
         <br/>
         <div class="row">
             <h5 class="text-end text-info">
