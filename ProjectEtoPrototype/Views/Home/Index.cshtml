@@ -6,72 +6,7 @@
 }
 
 
-<head>
-    <script type="text/javascript">
-        var map =
-        [
-            "&\#1632;", "&\#1633;", "&\#1634;", "&\#1635;", "&\#1636;",
-            "&\#1637;", "&\#1638;", "&\#1639;", "&\#1640;", "&\#1641;"
-        ];
-
-        function getArabicNumbers(str) {
-            var newStr = "";
-
-            str = String(str);
-
-            for (i = 0; i < str.length; i++) {
-                newStr += map[parseInt(str.charAt(i))];
-            }
-
-            return newStr;
-        }
-
-        function AddCaloriesJS(id, amount) {
-            $.ajax({
-                url: 'Home/AddCaloriesApi?userId=' + id + '&amount=' + amount,
-            }).done(function(response) {
-                var caloriesLabel = document.getElementById('caloriesLabelText');
-                caloriesLabel.innerHTML = parseInt(caloriesLabel.innerHTML) + parseInt(amount);
-            });
-        }
-
-        function UpdateQuranUi(data) {
-            var verseTextP = document.getElementById('verseText');
-            verseTextP.innerHTML = data["verse"];
-
-            var verseNameAndNumberP = document.getElementById('verseNameAndNumber');
-            verseNameAndNumberP.innerHTML = data["surah"] + ' ' + getArabicNumbers(data["verseNum"]);
-
-            var completeCongratsD = document.getElementById('completeCongrats');
-            completeCongratsD.hidden = true;
-        }
-
-        function GetPreVerse(id) {
-            $.ajax({
-                url: 'Home/GetPreVerse?userId=' + id,
-            }).done(function(response) {
-                UpdateQuranUi(response);
-            });
-        }
-
-        function GetNextVerse(id) {
-            $.ajax({
-                url: 'Home/GetNextVerse?userId=' + id,
-            }).done(function(response) {
-                UpdateQuranUi(response);
-
-                if (response["verseNum"] === '1' && response["surah"] === 'الفاتحة') {
-                    var completeCongratsD = document.getElementById('completeCongrats');
-                    completeCongratsD.hidden = false;
-                }
-            });
-        }
-
-    </script>
-</head>
-
 <div class="text-center" dir="rtl">
-
     <div class="container mt-3">
         <div class="row">
             <h5 class="text-end text-info">
@@ -81,24 +16,19 @@
         </div>
         <div class="row">
             <p class="text-start text-secondary" id="verseNameAndNumber">
-                @QuranHandler.ChapterName
-                @QuranHandler.VerseID
+                
             </p>
-            <script type="text/javascript">
-                window.onload = function() {
-                    document.getElementById("verseNameAndNumber").innerHTML = "@QuranHandler.ChapterName " + getArabicNumbers(@QuranHandler.VerseID);
-                }
-            </script>
+            
             <p class="text-center" id="verseText">
-                @QuranHandler.SetAndGetVerse(Model.Preference.SurahId, Model.Preference.VerseId)
+                
             </p>
         </div>
         <div class="row" dir="ltr">
             <div class="btn-group btn-group-sm" role="group">
-                <a class="btn btn-outline-secondary" onclick="GetPreVerse('@Model.UserId');">
+                <a class="btn btn-outline-secondary" onclick="changeVerse(-1);">
                     السابق
                 </a>
-                <a class="btn btn-outline-primary" onclick="GetNextVerse('@Model.UserId');">
+                <a class="btn btn-outline-primary" onclick="changeVerse(1);">
                     التالي
                 </a>
             </div>
@@ -111,7 +41,7 @@
             </div>
         </div>
 
-            <br/>
+        <br/>
         <br/>
         <div class="row">
             <h5 class="text-end text-info">
@@ -227,3 +157,111 @@
     </div>
 
 </div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/js/quran.js"></script>
+    <script type="text/javascript">
+        var map =
+            [
+                "&\#1632;", "&\#1633;", "&\#1634;", "&\#1635;", "&\#1636;",
+                "&\#1637;", "&\#1638;", "&\#1639;", "&\#1640;", "&\#1641;"
+            ];
+
+        function getArabicNumbers(str) {
+            var newStr = "";
+
+            str = String(str);
+
+            for (i = 0; i < str.length; i++) {
+                newStr += map[parseInt(str.charAt(i))];
+            }
+
+            return newStr;
+        }
+
+        function AddCaloriesJS(id, amount) {
+            $.ajax({
+                url: 'Home/AddCaloriesApi?userId=' + id + '&amount=' + amount,
+            }).done(function (response) {
+                var caloriesLabel = document.getElementById('caloriesLabelText');
+                caloriesLabel.innerHTML = parseInt(caloriesLabel.innerHTML) + parseInt(amount);
+            });
+        }
+
+        function UpdateQuranUi(data) {
+            var verseTextP = document.getElementById('verseText');
+            verseTextP.innerHTML = data["verse"];
+
+            var verseNameAndNumberP = document.getElementById('verseNameAndNumber');
+            verseNameAndNumberP.innerHTML = data["surah"] + ' ' + getArabicNumbers(data["verseNum"]);
+
+            var completeCongratsD = document.getElementById('completeCongrats');
+            completeCongratsD.hidden = true;
+        }
+
+        var fullQuranXml = getFullQuranAsString();
+
+        var parser = new DOMParser();
+        var xmlDoc = parser.parseFromString(fullQuranXml, "text/xml");
+
+        function getVerseData(verseNumber) {
+
+            verseNumber--;
+
+            var verseNode = xmlDoc.getElementsByTagName("Verse")[verseNumber];
+
+            var dict = {
+                "text": verseNode.childNodes[0].nodeValue,
+                "verseInChapterId": verseNode.attributes.getNamedItem("VerseID").nodeValue,
+                "chapterName": verseNode.parentElement.attributes.getNamedItem("ChapterName").nodeValue,
+                "chapterId": verseNode.parentElement.attributes.getNamedItem("ChapterID").nodeValue
+            }
+            return dict;
+        }
+
+        var currentVerseNumber = @Model.Preference.VerseId;
+        var nameNumberP, verseTextP;
+        function changeVerse(direction) {
+
+            currentVerseNumber += direction;
+
+            if (currentVerseNumber > 6236) {
+                currentVerseNumber = 1;
+                document.getElementById('completeCongrats').hidden = false;
+            }
+            else if (currentVerseNumber < 1) {
+                currentVerseNumber = 6236;
+            }
+            else {
+                document.getElementById('completeCongrats').hidden = true;
+            }
+
+            updateQuranText();
+            $.ajax({
+                url: '@Url.Action("UpdateUserQuranApi", "Home")',
+                data: {
+                    'userId': '@Model.UserId',
+                    'verseId': currentVerseNumber
+                }
+            }).done(function (response) {
+                
+            });
+        }
+
+        function updateQuranText() {
+            nameNumberP = document.getElementById("verseNameAndNumber");
+            verseTextP = document.getElementById("verseText");
+
+            var verse = getVerseData(currentVerseNumber);
+
+            nameNumberP.innerHTML = verse["chapterName"] + ' ' + getArabicNumbers(verse["verseInChapterId"]);
+            verseTextP.innerHTML = verse["text"];
+        }
+
+        window.onload = function() {
+            updateQuranText();
+        }
+
+    </script>
+}

@@ -4,6 +4,7 @@ using ProjectEtoPrototype.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.FileProviders;
 
 namespace ProjectEtoPrototype
 {
@@ -37,6 +38,13 @@ namespace ProjectEtoPrototype
                         app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(builder.Environment.ContentRootPath, "MyStaticFiles")),
+                RequestPath = "/StaticFiles"
+            });
 
             app.MapControllerRoute(
                 name: "default",

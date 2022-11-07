@@ -14,7 +14,7 @@ public class HomeController : BaseController
         if (exist is not null) { return exist; }
         var user = GetUser(Request);
 
-        QuranHandler.SetAndGetVerse(user.Preference.SurahId, user.Preference.VerseId);
+        // ---- QuranHandler.SetAndGetVerse(user.Preference.SurahId, user.Preference.VerseId);
 
         // remove tasks that expired
         var changed = false;
@@ -41,80 +41,14 @@ public class HomeController : BaseController
         return View(user);
     }
 
-    // public IActionResult PreVerse()
-    // {
-    //     var exist = CheckUserExist(Request);
-    //     if (exist is not null) { return exist; }
-    //     var user = GetUser(Request);
-    //
-    //     QuranHandler.SetAndGetVerse(user.Preference.SurahId, user.Preference.VerseId);
-    //     QuranHandler.PreviousVerse();
-    //     user.Preference.SurahId = QuranHandler.ChapterID;
-    //     user.Preference.VerseId = QuranHandler.VerseID;
-    //     Db.SaveChanges();
-    //     return RedirectToAction("Index", "Home");
-    // }
-
-    public Dictionary<string, string> GetPreVerse(string userId)
-    {
-        // TODO: make this front end
-        var exist = CheckUserExist(userId);
-        if (exist is not null) { return null; }
-        var user = GetUser(userId);
-
-        QuranHandler.SetAndGetVerse(user.Preference.SurahId, user.Preference.VerseId);
-        QuranHandler.PreviousVerse();
-        user.Preference.SurahId = QuranHandler.ChapterID;
-        user.Preference.VerseId = QuranHandler.VerseID;
-        Db.SaveChanges();
-
-        var dict = new Dictionary<string, string>
-        {
-            {"verse", QuranHandler.SetAndGetVerse(user.Preference.SurahId, user.Preference.VerseId)},
-            {"surah", QuranHandler.ChapterName},
-            {"verseNum", QuranHandler.VerseID.ToString()},
-        };
-
-        return dict;
-    }
-
-    // public IActionResult NextVerse()
-    // {
-    //     var exist = CheckUserExist(Request);
-    //     if (exist is not null) { return exist; }
-    //     var user = GetUser(Request);
-    //
-    //     QuranHandler.SetAndGetVerse(user.Preference.SurahId, user.Preference.VerseId);
-    //     QuranHandler.NextVerse();
-    //     user.Preference.SurahId = QuranHandler.ChapterID;
-    //     user.Preference.VerseId = QuranHandler.VerseID;
-    //     Db.SaveChanges();
-    //
-    //     if (user.Preference.SurahId == 1 && user.Preference.VerseId == 1) TempData["QuranComplete"] = "true";
-    //
-    //     return RedirectToAction("Index", "Home");
-    // }
-
-    public Dictionary<string, string> GetNextVerse(string userId)
+    public void UpdateUserQuranApi(string userId, int verseId)
     {
         var exist = CheckUserExist(userId);
-        if (exist is not null) { return null; }
+        if (exist is not null) { return; }
         var user = GetUser(userId);
 
-        QuranHandler.SetAndGetVerse(user.Preference.SurahId, user.Preference.VerseId);
-        QuranHandler.NextVerse();
-        user.Preference.SurahId = QuranHandler.ChapterID;
-        user.Preference.VerseId = QuranHandler.VerseID;
+        user.Preference.VerseId = verseId;
         Db.SaveChanges();
-
-        var dict = new Dictionary<string, string>
-        {
-            {"verse", QuranHandler.SetAndGetVerse(user.Preference.SurahId, user.Preference.VerseId)},
-            {"surah", QuranHandler.ChapterName},
-            {"verseNum", QuranHandler.VerseID.ToString()},
-        };
-
-        return dict;
     }
 
 
