@@ -26,7 +26,7 @@ namespace ProjectEtoPrototype.Migrations
                 {
                     BankId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Balance = table.Column<int>(type: "int", nullable: false),
+                    Balance = table.Column<float>(type: "real", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -68,7 +68,7 @@ namespace ProjectEtoPrototype.Migrations
                     PreferenceId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Theme = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CaloriesLstDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CurrentCalories = table.Column<int>(type: "int", nullable: false),
                     MaxCalories = table.Column<int>(type: "int", nullable: false),
                     SurahId = table.Column<int>(type: "int", nullable: false),
@@ -92,9 +92,10 @@ namespace ProjectEtoPrototype.Migrations
                 {
                     OperationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Amount = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<float>(type: "real", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Class = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     BankId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

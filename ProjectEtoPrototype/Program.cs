@@ -39,13 +39,6 @@ namespace ProjectEtoPrototype
 
             app.UseAuthorization();
 
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(builder.Environment.ContentRootPath, "MyStaticFiles")),
-                RequestPath = "/StaticFiles"
-            });
-
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Welcome}/{action=Index}/{id?}");

@@ -12,8 +12,8 @@ using ProjectEtoPrototype.Data;
 namespace ProjectEtoPrototype.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221025231853_addDateToOperations")]
-    partial class addDateToOperations
+    [Migration("20221108111632_m1")]
+    partial class m1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -113,7 +113,7 @@ namespace ProjectEtoPrototype.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PreferenceId"), 1L, 1);
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime>("CaloriesLstDateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("CurrentCalories")
