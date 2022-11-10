@@ -96,7 +96,8 @@
                             @obj.Name
                         </td>
                         <td>
-                            @(Math.Round(24 - (DateTime.Now - obj.CreatedDate).TotalHours, 2))
+                            @{ var timeLeft = new TimeSpan(0, 24, 0, 0) - (DateTime.Now - obj.CreatedDate);}
+                            @(timeLeft.ToString(@"hh\:mm"))
                             ساعة
                         </td>
                         <td>

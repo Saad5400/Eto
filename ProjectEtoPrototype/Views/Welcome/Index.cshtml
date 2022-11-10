@@ -14,43 +14,41 @@
     }
 </style>
 
-<body dir="rtl" class="droid-arabic-kufi">
-    <header>
-        <div class="text-center pt-3 px-5">
-            <h1 class="animate__animated animate__backInDown pb-3 pt-3 unselectable border" style="font-size:500%;color:white;border-color:white;">
-                مشروع ETO
-            </h1>
-        </div>
-    </header>
-    <div class="container">
-        <div class="row pt-5 px-5">
-            <ul class="list-group list-group-flush animate__animated animate__fadeIn animate__delay-1s text-second">
-                <li class="li_m">
-                    <h5 class="text-center">
-                        ETO برنامج يساعدك على ترتيب وتتبع مهامك اليومية
-                    </h5>
-                </li>
-                <li class="li_m">
-                    <h5 class="text-center">
-                        تستطيع انشاء تقويم للمواعيد الهامة ومشاركته اونلاين
-                    </h5>
-                </li>
-                <li class="li_m">
-                    <h5 class="text-center">
-                        التسجيل لا يتطلب بريد الكتروني او اسم مستخدم او كلمة مرور
-                    </h5>
-                </li>
-            </ul>
-        </div>
-        <div class="row pt-5 px-5">
-            <div class="btn-group" role="group" dir="ltr">
-                <a class="animate__animated animate__delay-2s animate__fadeInLeft btn btn-lg btn-outline-warning" asp-controller="Welcome" asp-action="Register">
-                    انشاء حساب جديد
-                </a>
-                <a class="btn btn-lg btn-outline-secondary animate__animated animate__delay-2s animate__fadeInRight" asp-controller="Welcome" asp-action="Login">
-                    تسجيل الدخول
-                </a>
-            </div>
-        </div>
+<body dir="rtl" class="droid-arabic-kufi container">
+<div class="text-center pt-3 px-5 row">
+    <h1 class="animate__animated animate__fadeIn pb-3 pt-3 unselectable border-bottom" style="font-size:400%">
+        مشروع ETO
+    </h1>
+</div>
+<div class="row" style="margin: 5%"></div>
+<div class="row pt-5 px-5">
+    <ul class="list-group list-group-flush animate__animated animate__fadeIn">
+        <li class="li_m">
+            <h5>
+                ETO: منظم المهام اليومية
+            </h5>
+        </li>
+        <li class="li_m">
+            <h5>
+                يساعدك على تتبع المهام والمصاريف والمواعيد
+            </h5>
+        </li>
+        <li class="li_m">
+            <h5>
+                التسجيل لا يتطلب بريد الكتروني او كلمة مرور
+            </h5>
+        </li>
+    </ul>
+</div>
+<div class="row" style="margin: 10%"></div>
+<div class="row pt-5 px-5">
+    <div class="btn-group" role="group" dir="ltr">
+        <a class="animate__animated animate__fadeIn btn btn-lg btn-outline-primary" asp-controller="Welcome" asp-action="Register">
+            انشاء حساب جديد
+        </a>
+        <a class="btn btn-lg btn-outline-dark animate__animated animate__fadeIn" asp-controller="Welcome" asp-action="Login">
+            تسجيل الدخول
+        </a>
     </div>
+</div>
 </body>

@@ -5,26 +5,23 @@
     Layout = "~/Views/Shared/_WelcomeBaseLayout.cshtml";
 }
 
-<div class="mt-5 mb-5">
-    <div class="pt-5 pb-5">
-    </div>
-</div>
-<form class="container text-center px-3" dir="rtl">
-    <div class="row mb-3">
-        <h1>
+<form class="container px-3" dir="rtl">
+    <div class="row mb-3 mt-5">
+        <h1 class="text-primary">
             حسابك جاهز!
         </h1>
     </div>
-    <div class="row mb-3">
-        <h3>
+    <div class="row mb-3 mt-5">
+        <h5>
             هذا ايدي الحساب ما يحتاج تحفظه الا لو بتدخل من جهاز ثاني، تقدر تشوفه بعدين من الاعدادات
-        </h3>
-        <br />
-        <h3>
+        </h5>
+        <br/>
+        <h5 class="text-info">
             @Model.UserId
-        </h3>
-        <br />
+        </h5>
+        <br/>
     </div>
+    <div class="row" style="margin: 20%"></div>
     <div class="row">
         <a asp-action="Index" asp-controller="Home" class="btn btn-lg btn-outline-primary form-control-lg">
             دخول
