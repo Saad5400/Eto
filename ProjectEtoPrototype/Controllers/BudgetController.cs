@@ -40,9 +40,7 @@ namespace ProjectEtoPrototype.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateOperation(Operation operation)
         {
-            // exist is a page that will be null if the user does exist
-            var exist = CheckUserExist(Request);
-            if (exist is not null) { return exist; }
+
             User user = GetUser(Request);
 
             operation.Bank = user.Bank;
@@ -88,9 +86,7 @@ namespace ProjectEtoPrototype.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditOperation(Operation operation)
         {
-            // exist is a page that will be null if the user does exist
-            var exist = CheckUserExist(Request);
-            if (exist is not null) { return exist; }
+
             User user = GetUser(Request);
 
             if (!ModelState.IsValid || operation.Amount == 0)
@@ -119,9 +115,7 @@ namespace ProjectEtoPrototype.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult RemoveOperation(int operationId)
         {
-            // exist is a page that will be null if the user does exist
-            var exist = CheckUserExist(Request);
-            if (exist is not null) { return exist; }
+
             User user = GetUser(Request);
 
             Operation? operation = Db.Operations.Find(operationId);

@@ -43,8 +43,6 @@ public class HomeController : BaseController
 
     public void UpdateUserQuranApi(string userId, int verseId)
     {
-        var exist = CheckUserExist(userId);
-        if (exist is not null) { return; }
         var user = GetUser(userId);
 
         user.Preference.VerseId = verseId;
@@ -62,8 +60,6 @@ public class HomeController : BaseController
             return Redirect(Request.Headers["Referer"].ToString());
         }
 
-        var exist = CheckUserExist(Request);
-        if (exist is not null) { return exist; }
         var user = GetUser(Request);
 
         user.DailyTasks.Add(new DailyTask { Name = passedUser.TempData });
@@ -94,8 +90,6 @@ public class HomeController : BaseController
 
     public IActionResult AddCalories(int amount)
     {
-        var exist = CheckUserExist(Request);
-        if (exist is not null) { return exist; }
         var user = GetUser(Request);
 
         user.Preference.CurrentCalories += amount;
@@ -106,8 +100,6 @@ public class HomeController : BaseController
 
     public void AddCaloriesApi(string userId, int amount)
     {
-        var exist = CheckUserExist(userId);
-        if (exist is not null) { return; }
         var user = GetUser(userId);
 
         user.Preference.CurrentCalories += amount;
