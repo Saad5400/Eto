@@ -27,19 +27,19 @@
             <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasExampleLabel">تغيير السورة</h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"
+                            id="offcanvasCloseButton"></button>
                 </div>
+
                 @* BODY *@
                 <div class="offcanvas-body">
                     <div class="hstack gap-1">
-                        <div class="col-8 btn-group-vertical" id="surahsNames">
-
-                        </div>
-                        <div class="col-4 btn-group-vertical" id="versesNums">
+                        <div class="col-12 btn-group-vertical" id="surahsNames">
 
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
         <div class="row" dir="ltr">
@@ -148,32 +148,19 @@
             </label>
         </div>
         <div class="row">
-            <div class="col-6 btn-group d-flex justify-content-center" role="group" dir="ltr">
+            <div class="col-6">
+                <input type="number" min="0" max="2000" class="form-control" id="caloriesChangeInput"/>
+            </div>
+            <div class="col-6 btn-group" dir="ltr">
 
-                <a class="btn btn-outline-primary" dir="rtl" onclick="AddCaloriesJS('@Model.UserId', '450')">
-                    +450
+                <a class="btn btn-outline-primary" onclick="AddCaloriesJS(1)">
+                    ➕
                 </a>
-                <a class="btn btn-outline-primary" dir="rtl" onclick="AddCaloriesJS('@Model.UserId', '150')">
-                    +150
-                </a>
-                <a class="btn btn-outline-primary" dir="rtl" onclick="AddCaloriesJS('@Model.UserId', '50')">
-                    +50
+                <a class="btn btn-outline-primary" onclick="AddCaloriesJS(-1)">
+                    ➖
                 </a>
             </div>
-            <div class="col-6 btn-group d-flex justify-content-center" role="group" dir="ltr">
-                <a class="btn btn-outline-secondary" dir="rtl" onclick="AddCaloriesJS('@Model.UserId', '-50')">
-                    -50
-                </a>
-                <a class="btn btn-outline-secondary" dir="rtl" onclick="AddCaloriesJS('@Model.UserId', '-150')">
-                    -150
-                </a>
-                <a class="btn btn-outline-secondary" dir="rtl" onclick="AddCaloriesJS('@Model.UserId', '-450')">
-                    -450
-                </a>
-            </div>
-
         </div>
-
     </div>
 
 </div>
@@ -200,12 +187,23 @@
             return newStr;
         }
 
-        function AddCaloriesJS(id, amount) {
+        function AddCaloriesJS(direction) {
+
+            const caloriesLabel = document.getElementById('caloriesLabelText');
+
+            const amount = document.getElementById('caloriesChangeInput').value * direction;
+
             $.ajax({
-                url: 'Home/AddCaloriesApi?userId=' + id + '&amount=' + amount,
+                url: 'Home/AddCaloriesApi',
+                method: 'POST',
+                data: {
+                    'userId': '@Model.UserId',
+                    'amount': amount
+                }
             }).done(function(response) {
-                var caloriesLabel = document.getElementById('caloriesLabelText');
-                caloriesLabel.innerHTML = parseInt(caloriesLabel.innerHTML) + parseInt(amount);
+                if (response) {
+                    caloriesLabel.innerHTML = parseInt(caloriesLabel.innerHTML) + parseInt(amount);
+                }
             });
         }
 
@@ -297,23 +295,14 @@
                 btn.innerHTML = name;
 
                 btn.onclick = function() {
-                    versesNums.innerHTML = '';
-                    for (let j = 0; j < versesNum; j++) {
-
-                        const btn2 = document.createElement('button');
-                        btn2.type = 'button';
-                        btn2.classList = 'btn btn-outline-primary';
-                        btn2.innerHTML = j + 1;
-
-                        
-
-
-                        btn2.onclick = function() {
-
-                        }
-
-                        versesNums.appendChild(btn2);
+                    let index = 1;
+                    for (let j = i - 1; j >= 0; j--) {
+                        index += surahs[j].childNodes.length;
                     }
+                    changeVerse(index - currentVerseNumber);
+
+                    document.getElementById("offcanvasCloseButton").click();
+
                 };
 
                 surahsNames.appendChild(btn);

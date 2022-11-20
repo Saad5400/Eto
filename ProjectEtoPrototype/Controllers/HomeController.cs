@@ -98,12 +98,20 @@ public class HomeController : BaseController
         return Redirect(Request.Headers["Referer"].ToString());
     }
 
-    public void AddCaloriesApi(string userId, int amount)
+    [HttpPost]
+    public bool AddCaloriesApi(string userId, int amount)
     {
         var user = GetUser(userId);
 
+        if (user.Preference.CurrentCalories + amount > 5000 || user.Preference.CurrentCalories + amount < -5000)
+        {
+            return false;
+        }
+
         user.Preference.CurrentCalories += amount;
         Db.SaveChanges();
+
+        return true;
     }
 
 
