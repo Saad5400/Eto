@@ -54,17 +54,6 @@ namespace ProjectEtoPrototype.Controllers
             // create new user object
             User user = new User{ UserId = userId };
 
-            user.DailyTasks.Add(new DailyTask
-            {
-                Name = "اكمال الواجب", UserId = user.UserId, CreatedDate = DateTime.Now, User = user
-            });
-            user.Bank.Operations.Add(new Operation
-            {
-                Description = "البقالة", Class = "مقاضي", Amount = -5, Bank = user.Bank, 
-                CreatedDate = DateTime.Now, BankId = user.Bank.BankId
-            });
-            user.Bank.Balance = -5;
-
             // add that user object to database
             Db.Add(user);
             Db.SaveChanges();

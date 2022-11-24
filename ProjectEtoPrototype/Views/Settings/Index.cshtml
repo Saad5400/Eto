@@ -1,3 +1,27 @@
-﻿@{
-    ViewData["Title"] = "Settings Page";
+﻿@model User
+@{
+    ViewData["Title"] = "الاعدادات";
 }
+
+<div class="container" dir="rtl">
+    
+    <p class="mt-4 h3">
+        ايدي الحساب: @Model.UserId
+    </p>
+    <hr/>
+    <p class="h5 text-center">
+        تواصل مع المطور
+    </p>
+    <form action="https://formsubmit.co/sdbtwa+ETO@gmail.com" method="POST">
+        <div class="form-group">
+            <label for="exampleInputEmail1" class="form-label mt-4">البريد الالكتروني</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="Email" placeholder="abc@example.com" dir="ltr" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1" class="form-label mt-4">الرسالة</label>
+            <textarea type="password" class="form-control" id="exampleInputPassword1" name="Message" rows="5" required=""></textarea>
+        </div>
+        <button type="submit" class="mt-4 form-control btn btn-outline-primary">ارسال</button>
+    </form>
+
+</div>

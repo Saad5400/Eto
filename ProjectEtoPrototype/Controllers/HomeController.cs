@@ -41,6 +41,7 @@ public class HomeController : BaseController
         return View(user);
     }
 
+    [HttpPost]
     public void UpdateUserQuranApi(string userId, int verseId)
     {
         var user = GetUser(userId);

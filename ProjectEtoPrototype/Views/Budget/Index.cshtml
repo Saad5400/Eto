@@ -1,6 +1,6 @@
 ﻿@model User
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "تتبع المصاريف";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -183,8 +183,8 @@
                 <i class="bi bi-info-circle"></i>
             </th>
             <th width="60%">
-                النسبة
-                <i class="bi bi-percent"></i>
+                        المبلغ
+                        <i class="bi bi-currency-dollar"></i>
             </th>
         </tr>
         <tbody>
@@ -203,7 +203,6 @@
                             <p class="text-end">
                                 &nbsp;
                                 @System.Math.Abs(pair.Value)
-                                <i class="bi bi-currency-dollar"></i>
                             </p>
                         </div>
                     </td>
@@ -233,8 +232,8 @@
                 <i class="bi bi-info-circle"></i>
             </th>
             <th width="60%">
-                النسبة
-                <i class="bi bi-percent"></i>
+                        المبلغ
+                        <i class="bi bi-currency-dollar"></i>
             </th>
         </tr>
         <tbody>
@@ -253,7 +252,6 @@
                             <p class="text-end">
                                 &nbsp;
                                 @pair.Value
-                                <i class="bi bi-currency-dollar"></i>
                             </p>
                         </div>
                     </td>
