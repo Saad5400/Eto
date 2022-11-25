@@ -153,7 +153,7 @@
 
     foreach (var deposit in depositEnumerable)
     {
-        if (withdrawClassesDict.ContainsKey(deposit.Class)) {continue;}
+        if (depositClassesDict.ContainsKey(deposit.Class)) {continue;}
 
         var classTotal = (from x in depositEnumerable
                           where x.Class == deposit.Class
