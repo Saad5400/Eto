@@ -112,7 +112,8 @@
                         </td>
                         <td>
                             @{ var timeLeft = new TimeSpan(0, 24, 0, 0) - (DateTime.Now - obj.CreatedDate);}
-                            @(timeLeft.ToString(@"hh\:mm"))
+                            @* @(timeLeft.ToString(@"hh\:mm")) *@
+                            @($"{(int)(timeLeft.TotalHours)}:{timeLeft.Minutes}")
                             ساعة
                         </td>
                         <td>
@@ -132,31 +133,31 @@
             </table>
         </div>
 
-        <div class="row mt-2">
-            <h5 class="text-end text-info">
-                السعرات اليومية
-                <i class="bi bi-fire"></i>
-            </h5>
-        </div>
-        <div class="row mb-3">
-            <label class="text-center text-primary" style="font-size: large;">
-                <strong id="caloriesLabelText">@Model.Preference.CurrentCalories</strong>
-            </label>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <input type="number" min="0" max="2000" class="form-control" id="caloriesChangeInput"/>
-            </div>
-            <div class="col-6 btn-group" dir="ltr">
-
-                <a class="btn btn-outline-primary" onclick="AddCaloriesJS(1)">
-                    ➕
-                </a>
-                <a class="btn btn-outline-primary" onclick="AddCaloriesJS(-1)">
-                    ➖
-                </a>
-            </div>
-        </div>
+        @* <div class="row mt-2"> *@
+        @*     <h5 class="text-end text-info"> *@
+        @*         السعرات اليومية *@
+        @*         <i class="bi bi-fire"></i> *@
+        @*     </h5> *@
+        @* </div> *@
+        @* <div class="row mb-3"> *@
+        @*     <label class="text-center text-primary" style="font-size: large;"> *@
+        @*         <strong id="caloriesLabelText">@Model.Preference.CurrentCalories</strong> *@
+        @*     </label> *@
+        @* </div> *@
+        @* <div class="row"> *@
+        @*     <div class="col-6"> *@
+        @*         <input type="number" min="0" max="2000" class="form-control" id="caloriesChangeInput"/> *@
+        @*     </div> *@
+        @*     <div class="col-6 btn-group" dir="ltr"> *@
+        @* *@
+        @*         <a class="btn btn-outline-primary" onclick="AddCaloriesJS(1)"> *@
+        @*             ➕ *@
+        @*         </a> *@
+        @*         <a class="btn btn-outline-primary" onclick="AddCaloriesJS(-1)"> *@
+        @*             ➖ *@
+        @*         </a> *@
+        @*     </div> *@
+        @* </div> *@
     </div>
 
 </div>
